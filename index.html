@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Vaichover">
+  <meta name="theme-color" id="meta-theme" content="#1e40af">
+  <title>Vaichover?</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ok:         #16a34a;
+      --ok-bg:      #dcfce7;
+      --ok-border:  #bbf7d0;
+      --danger:     #dc2626;
+      --danger-bg:  #fee2e2;
+      --danger-border: #fca5a5;
+      --blue:       #1e40af;
+      --blue-dark:  #1e3a8a;
+      --text:       #1e293b;
+      --text-muted: #64748b;
+      --bg:         #f1f5f9;
+      --card:       #ffffff;
+      --border:     #e2e8f0;
+      --radius:     16px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── Setup ── */
+    #setup {
+      display: none;
+      padding: 3rem 1.5rem 2rem;
+      min-height: 100dvh;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    #setup.active { display: flex; }
+
+    .setup-logo { font-size: 3rem; }
+    .setup-title { font-size: 2rem; font-weight: 800; color: var(--blue); letter-spacing: -0.5px; }
+    .setup-sub { color: var(--text-muted); line-height: 1.55; font-size: 0.95rem; }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    input:focus { border-color: var(--blue); }
+
+    .help { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; }
+    .help a { color: var(--blue); text-decoration: none; }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { opacity: 0.8; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1.5px solid var(--border);
+    }
+
+    /* ── Loading ── */
+    #loading {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      min-height: 100dvh;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--text-muted);
+    }
+    #loading.active { display: flex; }
+
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+
+    /* ── Error ── */
+    #error {
+      display: none;
+      padding: 3rem 1.5rem;
+      min-height: 100dvh;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+    #error.active { display: flex; }
+    .error-emoji { font-size: 3rem; }
+    .error-title { font-size: 1.25rem; font-weight: 700; }
+    .error-msg { color: var(--text-muted); line-height: 1.55; }
+
+    /* ── Main App ── */
+    #app { display: none; }
+    #app.active { display: block; }
+
+    /* Header */
+    .header {
+      padding: 3.5rem 1.25rem 1.25rem;
+      transition: background 0.4s;
+    }
+    .header.ok      { background: var(--blue); }
+    .header.danger  { background: #991b1b; }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      color: #fff;
+    }
+    .app-name { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
+    .city-name { font-size: 0.85rem; opacity: 0.75; margin-top: 0.2rem; }
+
+    .icon-btn {
+      background: rgba(255,255,255,0.18);
+      border: none;
+      color: #fff;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0;
+    }
+    .icon-btn:active { background: rgba(255,255,255,0.3); }
+    .icon-btn.spinning { animation: spin 0.75s linear infinite; }
+
+    /* Weather card inside header */
+    .weather-strip {
+      margin-top: 1.25rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .w-emoji { font-size: 2.75rem; line-height: 1; flex-shrink: 0; }
+    .w-main { flex: 1; }
+    .w-temp { font-size: 2.5rem; font-weight: 700; line-height: 1; }
+    .w-temp sup { font-size: 1.1rem; font-weight: 400; }
+    .w-desc { font-size: 0.85rem; opacity: 0.82; text-transform: capitalize; margin-top: 0.2rem; }
+
+    .w-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.875rem;
+    }
+    .w-stat {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.5rem 0.75rem;
+      color: #fff;
+    }
+    .w-stat-label { font-size: 0.65rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.07em; }
+    .w-stat-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.15rem; }
+
+    /* Content */
+    .content {
+      padding: 1.25rem 1.25rem 2.5rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+
+    /* Alert banner */
+    .alert-banner {
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 0.875rem;
+    }
+    .alert-banner.ok     { background: var(--ok-bg);     color: var(--ok);     border: 1.5px solid var(--ok-border); }
+    .alert-banner.danger { background: var(--danger-bg); color: var(--danger); border: 1.5px solid var(--danger-border); }
+    .alert-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .alert-text { line-height: 1.3; }
+    .alert-title { font-weight: 700; font-size: 1rem; }
+    .alert-sub { font-size: 0.8rem; opacity: 0.75; margin-top: 0.2rem; font-weight: 400; }
+
+    /* Section title */
+    .section-title {
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Windows grid */
+    .windows-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .window-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .window-card.danger {
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+    }
+    .window-card.full-width { grid-column: 1 / -1; }
+    .wc-icon  { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .wc-name  { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .wc-status { font-size: 0.875rem; font-weight: 700; }
+    .window-card.danger .wc-status { color: var(--danger); }
+    .window-card:not(.danger) .wc-status { color: var(--ok); }
+    .wc-reason { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    .updated-time {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- ── Setup ── -->
+<div id="setup">
+  <div>
+    <div class="setup-logo">🏠</div>
+    <div class="setup-title">Vaichover?</div>
+    <p class="setup-sub" style="margin-top:0.5rem">Configure uma vez. Nunca mais cheque email para saber se fecha a janela.</p>
+  </div>
+
+  <div>
+    <label for="inp-key">Chave OpenWeatherMap</label>
+    <input type="text" id="inp-key" placeholder="Cole sua chave aqui" autocomplete="off" autocorrect="off" spellcheck="false">
+    <p class="help">Crie grátis em <a href="https://openweathermap.org/api" target="_blank" rel="noopener">openweathermap.org/api</a></p>
+  </div>
+
+  <div>
+    <label for="inp-city">Cidade</label>
+    <input type="text" id="inp-city" placeholder="Florianopolis,BR" value="Florianopolis,BR" autocorrect="off" spellcheck="false">
+    <p class="help">Formato: NomeDaCidade,BR</p>
+  </div>
+
+  <button class="btn" onclick="salvarConfig()">Salvar e Abrir</button>
+</div>
+
+<!-- ── Loading ── -->
+<div id="loading" class="active">
+  <div class="spinner"></div>
+  <span>Verificando janelas…</span>
+</div>
+
+<!-- ── Error ── -->
+<div id="error">
+  <div class="error-emoji">😬</div>
+  <div class="error-title">Algo deu errado</div>
+  <p class="error-msg" id="error-msg"></p>
+  <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem">
+    <button class="btn" onclick="carregar()">Tentar novamente</button>
+    <button class="btn btn-ghost" onclick="mostrarSetup()">Reconfigurar</button>
+  </div>
+</div>
+
+<!-- ── App ── -->
+<div id="app">
+  <div class="header ok" id="header">
+    <div class="header-row">
+      <div>
+        <div class="app-name">Vaichover?</div>
+        <div class="city-name" id="city-name"></div>
+      </div>
+      <button class="icon-btn" id="refresh-btn" onclick="carregar()" title="Atualizar">↻</button>
+    </div>
+
+    <div class="weather-strip">
+      <div class="w-emoji" id="w-emoji">—</div>
+      <div class="w-main">
+        <div class="w-temp" id="w-temp">—<sup>°C</sup></div>
+        <div class="w-desc" id="w-desc"></div>
+      </div>
+    </div>
+    <div class="w-stats">
+      <div class="w-stat"><div class="w-stat-label">Vento</div><div class="w-stat-value" id="w-wind">—</div></div>
+      <div class="w-stat"><div class="w-stat-label">Direção</div><div class="w-stat-value" id="w-dir">—</div></div>
+      <div class="w-stat"><div class="w-stat-label">Umidade</div><div class="w-stat-value" id="w-hum">—</div></div>
+      <div class="w-stat"><div class="w-stat-label">Sensação</div><div class="w-stat-value" id="w-feel">—</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="alert-banner ok" id="alert-banner">
+      <div class="alert-icon" id="alert-icon">—</div>
+      <div class="alert-text">
+        <div class="alert-title" id="alert-title"></div>
+        <div class="alert-sub" id="alert-sub"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Status das janelas</div>
+      <div class="windows-grid" id="windows-grid"></div>
+    </div>
+
+    <div class="updated-time" id="updated-time"></div>
+  </div>
+</div>
+
+<script>
+  const WINDOWS = [
+    { id: 1, name: "Sala",           icon: "🛋️", dMin:  60, dMax: 200 },
+    { id: 2, name: "Escrit. Pati",   icon: "💼", dMin:  60, dMax: 200 },
+    { id: 3, name: "Quarto",         icon: "🛏️", dMin:  60, dMax: 200 },
+    { id: 4, name: "Escrit. Ra",     icon: "💻", dMin:  60, dMax: 200 },
+    { id: 5, name: "Área de Serviço",icon: "🧺", dMin: 160, dMax: 270 },
+  ];
+
+  const WEATHER_EMOJI = {
+    Thunderstorm: "⛈️", Drizzle: "🌦️", Rain: "🌧️",
+    Snow: "❄️", Clear: "☀️", Clouds: "☁️",
+    Mist: "🌫️", Fog: "🌫️", Haze: "🌫️",
+  };
+
+  const DIRS = ["Norte","Nordeste","Leste","Sudeste","Sul","Sudoeste","Oeste","Noroeste"];
+
+  // ── State helpers ──────────────────────────────────────────────
+
+  function getConfig() {
+    return {
+      apiKey: localStorage.getItem("vw_key"),
+      city:   localStorage.getItem("vw_city") || "Florianopolis,BR",
+    };
+  }
+
+  function show(id) {
+    ["setup","loading","error","app"].forEach(s =>
+      document.getElementById(s).classList.toggle("active", s === id)
+    );
+  }
+
+  function mostrarSetup() {
+    const cfg = getConfig();
+    if (cfg.apiKey) document.getElementById("inp-key").value = cfg.apiKey;
+    document.getElementById("inp-city").value = cfg.city;
+    show("setup");
+  }
+
+  function salvarConfig() {
+    const key  = document.getElementById("inp-key").value.trim();
+    const city = document.getElementById("inp-city").value.trim();
+    if (!key)  { alert("Insira a chave da API."); return; }
+    if (!city) { alert("Insira a cidade."); return; }
+    localStorage.setItem("vw_key",  key);
+    localStorage.setItem("vw_city", city);
+    carregar();
+  }
+
+  // ── Window logic (same rules as GAS) ──────────────────────────
+
+  function calcWindows(deg, kmh, rain) {
+    const danger = rain || kmh > 15;
+    return WINDOWS.map(w => {
+      const affected = danger && deg > w.dMin && deg < w.dMax;
+      return {
+        ...w,
+        close:  affected,
+        reason: affected ? (rain ? "Chuva prevista" : `Vento ${kmh} km/h`) : "",
+      };
+    });
+  }
+
+  // ── Fetch & render ─────────────────────────────────────────────
+
+  async function carregar() {
+    const cfg = getConfig();
+    if (!cfg.apiKey) { mostrarSetup(); return; }
+
+    show("loading");
+    const btn = document.getElementById("refresh-btn");
+    btn.classList.add("spinning");
+
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cfg.city)}&appid=${cfg.apiKey}&units=metric&lang=pt_br`
+      );
+      if (!res.ok) {
+        if (res.status === 401) throw new Error("Chave de API inválida. Toque em Reconfigurar.");
+        if (res.status === 404) throw new Error(`Cidade "${cfg.city}" não encontrada. Tente o formato "Cidade,BR".`);
+        throw new Error(`Erro ${res.status} ao buscar dados.`);
+      }
+      const data = await res.json();
+      localStorage.setItem("vw_cache", JSON.stringify({ data, ts: Date.now() }));
+      renderizar(data);
+    } catch (e) {
+      // Try cached data on network failure
+      const raw = localStorage.getItem("vw_cache");
+      if (raw) {
+        const { data, ts } = JSON.parse(raw);
+        const ago = Math.round((Date.now() - ts) / 60000);
+        renderizar(data, `dados de ${ago}min atrás · offline`);
+      } else {
+        show("error");
+        document.getElementById("error-msg").textContent =
+          e.message || "Verifique sua conexão e tente novamente.";
+      }
+    } finally {
+      btn.classList.remove("spinning");
+    }
+  }
+
+  function renderizar(data, cacheNote) {
+    const kmh     = Math.round(data.wind.speed * 3.6);
+    const deg     = data.wind.deg ?? 0;
+    const rain    = data.weather.some(w => ["Rain","Drizzle","Thunderstorm"].includes(w.main));
+    const dirText = DIRS[Math.round(deg / 45) % 8];
+    const main    = data.weather[0].main;
+
+    // Header weather
+    document.getElementById("city-name").textContent = data.name;
+    document.getElementById("w-emoji").textContent   = WEATHER_EMOJI[main] || "🌡️";
+    document.getElementById("w-temp").innerHTML      = `${Math.round(data.main.temp)}<sup>°C</sup>`;
+    document.getElementById("w-desc").textContent    = data.weather[0].description;
+    document.getElementById("w-wind").textContent    = `${kmh} km/h`;
+    document.getElementById("w-dir").textContent     = dirText;
+    document.getElementById("w-hum").textContent     = `${data.main.humidity}%`;
+    document.getElementById("w-feel").textContent    = `${Math.round(data.main.feels_like)}°C`;
+
+    // Window logic
+    const windows = calcWindows(deg, kmh, rain);
+    const toClose = windows.filter(w => w.close);
+    const danger  = toClose.length > 0;
+
+    // Header color + theme-color meta
+    const headerEl = document.getElementById("header");
+    headerEl.className = `header ${danger ? "danger" : "ok"}`;
+    document.getElementById("meta-theme").content = danger ? "#991b1b" : "#1e40af";
+
+    // Alert banner
+    const banner = document.getElementById("alert-banner");
+    banner.className = `alert-banner ${danger ? "danger" : "ok"}`;
+    document.getElementById("alert-icon").textContent  = danger ? "⚠️" : "✅";
+    document.getElementById("alert-title").textContent = danger
+      ? `Fechar ${toClose.length} janela${toClose.length > 1 ? "s" : ""} antes de sair!`
+      : "Tudo OK — pode sair tranquilo";
+    document.getElementById("alert-sub").textContent = danger
+      ? toClose.map(w => w.name).join(", ")
+      : `Vento ${dirText} ${kmh} km/h${rain ? " · chuva" : ""}`;
+
+    // Window cards
+    const grid = document.getElementById("windows-grid");
+    grid.innerHTML = windows.map((w, i) => {
+      const last = i === windows.length - 1 && windows.length % 2 !== 0;
+      return `
+        <div class="window-card ${w.close ? "danger" : ""}${last ? " full-width" : ""}">
+          <div class="wc-icon">${w.icon}</div>
+          <div class="wc-name">${w.name}</div>
+          <div class="wc-status">${w.close ? "❌ FECHAR" : "✅ Aberta"}</div>
+          ${w.reason ? `<div class="wc-reason">${w.reason}</div>` : ""}
+        </div>`;
+    }).join("");
+
+    // Updated time
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    document.getElementById("updated-time").textContent =
+      cacheNote ? `⚠️ ${cacheNote}` : `Atualizado às ${timeStr}`;
+
+    show("app");
+  }
+
+  // ── Init ───────────────────────────────────────────────────────
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+
+  // Auto-refresh every 30 min when tab is visible
+  setInterval(() => {
+    if (!document.hidden) carregar();
+  }, 30 * 60 * 1000);
+
+  // Start
+  if (!getConfig().apiKey) {
+    document.getElementById("loading").classList.remove("active");
+    mostrarSetup();
+  } else {
+    carregar();
+  }
+</script>
+</body>
+</html>
