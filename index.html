@@ -262,6 +262,25 @@
       color: var(--text-muted);
     }
 
+    .forecast-alert {
+      background: var(--danger-bg);
+      border: 1.5px solid var(--danger-border);
+      border-radius: var(--radius);
+      padding: 0.875rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .forecast-time {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 0.4rem;
+    }
+    .forecast-windows {
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
@@ -347,6 +366,11 @@
       <div class="windows-grid" id="windows-grid"></div>
     </div>
 
+    <div id="forecast-section" style="display:none">
+      <div class="section-title" style="margin-top:1.25rem">Alerta antecipado</div>
+      <div id="forecast-alerts"></div>
+    </div>
+
     <div class="updated-time" id="updated-time"></div>
   </div>
 </div>
@@ -414,6 +438,69 @@
     });
   }
 
+  function analisarPrevisao(list) {
+    const alerts = [];
+    let periodoAtual = null;
+
+    list.forEach(item => {
+      const hora = new Date(item.dt * 1000).getHours();
+      const temChuva = item.weather.some(w => ["Rain","Drizzle","Thunderstorm"].includes(w.main));
+
+      // Filtra apenas entre 7h-19h
+      if (hora < 7 || hora >= 19) return;
+
+      if (temChuva) {
+        const kmh = Math.round(item.wind.speed * 3.6);
+        const deg = item.wind.deg ?? 0;
+        const windows = calcWindows(deg, kmh, true);
+        const janelas = windows.filter(w => w.close).map(w => w.name);
+
+        if (!periodoAtual) {
+          periodoAtual = {
+            horaInicio: hora,
+            horaFim: hora,
+            janelas: janelas,
+          };
+        } else {
+          // Continua o mesmo período se a próxima hora for contígua
+          if (hora === periodoAtual.horaFim + 3) {
+            periodoAtual.horaFim = hora;
+            // Mescla janelas únicas
+            periodoAtual.janelas = [...new Set([...periodoAtual.janelas, ...janelas])];
+          } else {
+            // Finaliza período anterior e começa novo
+            alerts.push({
+              tempo: `${String(periodoAtual.horaInicio).padStart(2, '0')}h-${String(periodoAtual.horaFim + 1).padStart(2, '0')}h`,
+              janelas: periodoAtual.janelas,
+            });
+            periodoAtual = {
+              horaInicio: hora,
+              horaFim: hora,
+              janelas: janelas,
+            };
+          }
+        }
+      } else if (periodoAtual) {
+        // Finaliza período quando não há mais chuva
+        alerts.push({
+          tempo: `${String(periodoAtual.horaInicio).padStart(2, '0')}h-${String(periodoAtual.horaFim + 1).padStart(2, '0')}h`,
+          janelas: periodoAtual.janelas,
+        });
+        periodoAtual = null;
+      }
+    });
+
+    // Finaliza último período se existir
+    if (periodoAtual) {
+      alerts.push({
+        tempo: `${String(periodoAtual.horaInicio).padStart(2, '0')}h-${String(periodoAtual.horaFim + 1).padStart(2, '0')}h`,
+        janelas: periodoAtual.janelas,
+      });
+    }
+
+    return alerts;
+  }
+
   // ── Fetch & render ─────────────────────────────────────────────
 
   async function carregar() {
@@ -426,7 +513,7 @@
 
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cfg.city)}&appid=${cfg.apiKey}&units=metric&lang=pt_br`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(cfg.city)}&appid=${cfg.apiKey}&units=metric&lang=pt_br`
       );
       if (!res.ok) {
         if (res.status === 401) throw new Error("Chave de API inválida. Toque em Reconfigurar.");
@@ -454,11 +541,13 @@
   }
 
   function renderizar(data, cacheNote) {
-    const kmh     = Math.round(data.wind.speed * 3.6);
-    const deg     = data.wind.deg ?? 0;
-    const rain    = data.weather.some(w => ["Rain","Drizzle","Thunderstorm"].includes(w.main));
+    // Extrai dados atuais (primeiro item da previsão)
+    const current = data.list[0];
+    const kmh     = Math.round(current.wind.speed * 3.6);
+    const deg     = current.wind.deg ?? 0;
+    const rain    = current.weather.some(w => ["Rain","Drizzle","Thunderstorm"].includes(w.main));
     const dirText = DIRS[Math.round(deg / 45) % 8];
-    const main    = data.weather[0].main;
+    const main    = current.weather[0].main;
 
     // Header weather
     document.getElementById("city-name").textContent = data.name;
@@ -505,6 +594,20 @@
     }).join("");
 
     // Updated time
+    // Processa alertas antecipados (próximas 24h entre 7h-19h)
+    const alerts = analisarPrevisao(data.list);
+    if (alerts.length > 0) {
+      document.getElementById("forecast-section").style.display = "block";
+      document.getElementById("forecast-alerts").innerHTML = alerts.map(a =>
+        `<div class="forecast-alert">
+          <div class="forecast-time">${a.tempo}</div>
+          <div class="forecast-windows">Fechar: ${a.janelas.join(", ")}</div>
+        </div>`
+      ).join("");
+    } else {
+      document.getElementById("forecast-section").style.display = "none";
+    }
+
     const now = new Date();
     const timeStr = now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
     document.getElementById("updated-time").textContent =
