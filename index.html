@@ -281,6 +281,51 @@
       line-height: 1.4;
     }
 
+    .timeline-section {
+      background: var(--blue);
+      border-radius: var(--radius);
+      padding: 1rem 0;
+      margin: 1.25rem -1.25rem 0;
+      overflow: hidden;
+    }
+    .timeline-scroll {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0 1.25rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+    }
+    .timeline-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+    .timeline-scroll::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+    }
+    .timeline-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem;
+      color: #fff;
+      scroll-snap-align: start;
+    }
+    .timeline-time {
+      font-size: 0.7rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+    .timeline-icon {
+      font-size: 1.75rem;
+    }
+
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
@@ -361,6 +406,12 @@
       </div>
     </div>
 
+    <div class="timeline-section">
+      <div class="timeline-scroll" id="timeline">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
     <div>
       <div class="section-title">Status das janelas</div>
       <div class="windows-grid" id="windows-grid"></div>
@@ -436,6 +487,26 @@
         reason: affected ? (rain ? "Chuva prevista" : `Vento ${kmh} km/h`) : "",
       };
     });
+  }
+
+  function gerarTimeline(list) {
+    const timeline = [];
+    let ultimaHora = -2;
+
+    list.forEach(item => {
+      const data = new Date(item.dt * 1000);
+      const hora = data.getHours();
+
+      // Pega a cada 2 horas, começando do próximo horário par (0, 2, 4... 22)
+      if (hora % 2 === 0 && hora !== ultimaHora) {
+        const main = item.weather[0].main;
+        const icon = WEATHER_EMOJI[main] || "🌡️";
+        timeline.push({ hora, icon });
+        ultimaHora = hora;
+      }
+    });
+
+    return timeline.slice(0, 12); // Máximo de 12 horários na timeline
   }
 
   function analisarPrevisao(list) {
@@ -579,6 +650,15 @@
     document.getElementById("alert-sub").textContent = danger
       ? toClose.map(w => w.name).join(", ")
       : `Vento ${dirText} ${kmh} km/h${rain ? " · chuva" : ""}`;
+
+    // Timeline
+    const timeline = gerarTimeline(data.list);
+    document.getElementById("timeline").innerHTML = timeline.map(t =>
+      `<div class="timeline-item">
+        <div class="timeline-time">${String(t.hora).padStart(2, '0')}h</div>
+        <div class="timeline-icon">${t.icon}</div>
+      </div>`
+    ).join("");
 
     // Window cards
     const grid = document.getElementById("windows-grid");
