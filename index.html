@@ -598,9 +598,18 @@
       // Try cached data on network failure
       const raw = localStorage.getItem("vw_cache");
       if (raw) {
-        const { data, ts } = JSON.parse(raw);
-        const ago = Math.round((Date.now() - ts) / 60000);
-        renderizar(data, `dados de ${ago}min atrás · offline`);
+        try {
+          const { data, ts } = JSON.parse(raw);
+          // Valida que o cache é do formato /forecast (tem data.list)
+          if (!data.list) throw new Error("cache desatualizado");
+          const ago = Math.round((Date.now() - ts) / 60000);
+          renderizar(data, `dados de ${ago}min atrás · offline`);
+        } catch (_) {
+          localStorage.removeItem("vw_cache");
+          show("error");
+          document.getElementById("error-msg").textContent =
+            "Verifique sua conexão e tente novamente.";
+        }
       } else {
         show("error");
         document.getElementById("error-msg").textContent =
