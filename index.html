@@ -592,12 +592,10 @@
         throw new Error(`Erro ${res.status} ao buscar dados.`);
       }
       const data = await res.json();
-      console.log("API OK, data.list length:", data.list?.length, "data.city:", data.city);
       localStorage.removeItem("vw_cache_legacy");
       localStorage.setItem("vw_cache", JSON.stringify({ data, ts: Date.now() }));
       renderizar(data);
     } catch (e) {
-      console.error("Erro em carregar():", e);
       // Erros de API conhecidos: mostrar mensagem direta sem tentar cache
       if (e.message && (e.message.includes("401") || e.message.includes("404") ||
           e.message.includes("inválida") || e.message.includes("não encontrada"))) {
