@@ -592,28 +592,35 @@
         throw new Error(`Erro ${res.status} ao buscar dados.`);
       }
       const data = await res.json();
+      localStorage.removeItem("vw_cache_legacy");
       localStorage.setItem("vw_cache", JSON.stringify({ data, ts: Date.now() }));
       renderizar(data);
     } catch (e) {
-      // Try cached data on network failure
-      const raw = localStorage.getItem("vw_cache");
-      if (raw) {
-        try {
-          const { data, ts } = JSON.parse(raw);
-          // Valida que o cache é do formato /forecast (tem data.list)
-          if (!data.list) throw new Error("cache desatualizado");
-          const ago = Math.round((Date.now() - ts) / 60000);
-          renderizar(data, `dados de ${ago}min atrás · offline`);
-        } catch (_) {
-          localStorage.removeItem("vw_cache");
+      // Erros de API conhecidos: mostrar mensagem direta sem tentar cache
+      if (e.message && (e.message.includes("401") || e.message.includes("404") ||
+          e.message.includes("inválida") || e.message.includes("não encontrada"))) {
+        show("error");
+        document.getElementById("error-msg").textContent = e.message;
+      } else {
+        // Erro de rede: tentar cache
+        const raw = localStorage.getItem("vw_cache");
+        if (raw) {
+          try {
+            const { data, ts } = JSON.parse(raw);
+            if (!data.list) throw new Error("cache desatualizado");
+            const ago = Math.round((Date.now() - ts) / 60000);
+            renderizar(data, `dados de ${ago}min atrás · offline`);
+          } catch (_) {
+            localStorage.removeItem("vw_cache");
+            show("error");
+            document.getElementById("error-msg").textContent =
+              "Verifique sua conexão e tente novamente.";
+          }
+        } else {
           show("error");
           document.getElementById("error-msg").textContent =
-            "Verifique sua conexão e tente novamente.";
+            e.message || "Verifique sua conexão e tente novamente.";
         }
-      } else {
-        show("error");
-        document.getElementById("error-msg").textContent =
-          e.message || "Verifique sua conexão e tente novamente.";
       }
     } finally {
       btn.classList.remove("spinning");
@@ -715,6 +722,15 @@
   setInterval(() => {
     if (!document.hidden) carregar();
   }, 30 * 60 * 1000);
+
+  // Limpa cache antigo (formato /weather sem data.list)
+  try {
+    const raw = localStorage.getItem("vw_cache");
+    if (raw) {
+      const { data } = JSON.parse(raw);
+      if (!data.list) localStorage.removeItem("vw_cache");
+    }
+  } catch (_) { localStorage.removeItem("vw_cache"); }
 
   // Start
   if (!getConfig().apiKey) {
