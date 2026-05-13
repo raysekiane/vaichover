@@ -630,14 +630,14 @@
     const main    = current.weather[0].main;
 
     // Header weather
-    document.getElementById("city-name").textContent = data.name;
+    document.getElementById("city-name").textContent = data.city?.name ?? data.name ?? "";
     document.getElementById("w-emoji").textContent   = WEATHER_EMOJI[main] || "🌡️";
-    document.getElementById("w-temp").innerHTML      = `${Math.round(data.main.temp)}<sup>°C</sup>`;
-    document.getElementById("w-desc").textContent    = data.weather[0].description;
+    document.getElementById("w-temp").innerHTML      = `${Math.round(current.main.temp)}<sup>°C</sup>`;
+    document.getElementById("w-desc").textContent    = current.weather[0].description;
     document.getElementById("w-wind").textContent    = `${kmh} km/h`;
     document.getElementById("w-dir").textContent     = dirText;
-    document.getElementById("w-hum").textContent     = `${data.main.humidity}%`;
-    document.getElementById("w-feel").textContent    = `${Math.round(data.main.feels_like)}°C`;
+    document.getElementById("w-hum").textContent     = `${current.main.humidity}%`;
+    document.getElementById("w-feel").textContent    = `${Math.round(current.main.feels_like)}°C`;
 
     // Window logic
     const windows = calcWindows(deg, kmh, rain);
