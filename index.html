@@ -7,12 +7,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Vaichover">
-  <meta name="theme-color" id="meta-theme" content="#1e40af">
+  <meta name="theme-color" id="meta-theme" content="#991b1b">
   <script>
-    // Aplica theme-color salvo antes do render para evitar flash de cor errada
     try {
       const saved = localStorage.getItem("vw_theme");
       if (saved) document.getElementById("meta-theme").content = saved;
+      const danger = localStorage.getItem("vw_danger") === "1";
+      document.addEventListener("DOMContentLoaded", () => {
+        const h = document.getElementById("header");
+        if (h) h.className = `header ${danger ? "danger" : "ok"}`;
+      });
     } catch(_) {}
   </script>
   <title>Vaichover?</title>
@@ -670,7 +674,10 @@
     headerEl.className = `header ${danger ? "danger" : "ok"}`;
     const themeColor = danger ? "#991b1b" : "#1e40af";
     document.getElementById("meta-theme").content = themeColor;
-    try { localStorage.setItem("vw_theme", themeColor); } catch(_) {}
+    try {
+      localStorage.setItem("vw_theme", themeColor);
+      localStorage.setItem("vw_danger", danger ? "1" : "0");
+    } catch(_) {}
 
     // Alert banner
     const banner = document.getElementById("alert-banner");
