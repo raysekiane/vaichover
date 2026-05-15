@@ -499,10 +499,14 @@
     const diaHoje = agora.toDateString();
     const tsAgora = agora.getTime();
 
-    // Filtra apenas itens de hoje a partir de agora (inclui o slot atual)
+    const amanha = new Date(agora);
+    amanha.setDate(amanha.getDate() + 1);
+    const diaAmanha = amanha.toDateString();
+
+    // Itens de hoje a partir de agora + slot 00h do dia seguinte (meia-noite)
     const itensHoje = list.filter(item => {
       const dt = new Date(item.dt * 1000);
-      // Inclui se for hoje E se o slot ainda não encerrou (dt + 3h > agora)
+      if (dt.toDateString() === diaAmanha && dt.getHours() === 0) return true;
       return dt.toDateString() === diaHoje && (item.dt * 1000 + 3 * 3600 * 1000) > tsAgora;
     });
 
@@ -510,8 +514,9 @@
       const dt = new Date(item.dt * 1000);
       const hora = dt.getHours();
       const main = item.weather[0].main;
+      const ehAmanha = dt.toDateString() === diaAmanha;
       return {
-        label: i === 0 ? "Agora" : `${String(hora).padStart(2, '0')}h`,
+        label: i === 0 ? "Agora" : ehAmanha ? "00h" : `${String(hora).padStart(2, '0')}h`,
         icon: WEATHER_EMOJI[main] || "🌡️",
         temp: Math.round(item.main.temp) + "°",
       };
