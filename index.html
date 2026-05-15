@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Vaichover">
-  <meta name="theme-color" id="meta-theme" content="#991b1b">
+  <meta name="theme-color" id="meta-theme" content="#c0392b">
   <script>
     try {
       const saved = localStorage.getItem("vw_theme");
@@ -26,15 +26,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ok:         #16a34a;
-      --ok-bg:      #dcfce7;
-      --ok-border:  #bbf7d0;
-      --danger:     #dc2626;
-      --danger-bg:  #fee2e2;
-      --danger-border: #fca5a5;
-      --blue:       #1e40af;
-      --blue-dark:  #1e3a8a;
-      --text:       #1e293b;
+      --ok:         #2563eb;
+      --ok-bg:      #eff6ff;
+      --ok-border:  #bfdbfe;
+      --danger:     #c0392b;
+      --danger-bg:  #fff0ef;
+      --danger-border: #fbb4ae;
+      --blue:       #2563eb;
+      --blue-dark:  #1d4ed8;
+      --red:        #c0392b;
+      --red-dark:   #a93226;
+      --text:       #1a2238;
       --text-muted: #64748b;
       --bg:         #f1f5f9;
       --card:       #ffffff;
@@ -154,8 +156,8 @@
       padding: 3.5rem 1.25rem 1.25rem;
       transition: background 0.4s;
     }
-    .header.ok      { background: var(--blue); }
-    .header.danger  { background: #991b1b; }
+    .header.ok      { background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dark) 100%); }
+    .header.danger  { background: linear-gradient(160deg, var(--red) 0%, var(--red-dark) 100%); }
 
     .header-row {
       display: flex;
@@ -672,7 +674,7 @@
     // Header color + theme-color meta
     const headerEl = document.getElementById("header");
     headerEl.className = `header ${danger ? "danger" : "ok"}`;
-    const themeColor = danger ? "#991b1b" : "#1e40af";
+    const themeColor = danger ? "#c0392b" : "#2563eb";
     document.getElementById("meta-theme").content = themeColor;
     try {
       localStorage.setItem("vw_theme", themeColor);
@@ -682,13 +684,13 @@
     // Alert banner
     const banner = document.getElementById("alert-banner");
     banner.className = `alert-banner ${danger ? "danger" : "ok"}`;
-    document.getElementById("alert-icon").textContent  = danger ? "⚠️" : "✅";
+    document.getElementById("alert-icon").textContent  = danger ? "🌧️" : "☀️";
     document.getElementById("alert-title").textContent = danger
-      ? `Fechar ${toClose.length} janela${toClose.length > 1 ? "s" : ""} hoje!`
-      : "Tudo OK — pode sair tranquilo";
+      ? "Vai chover! Feche as janelas."
+      : "Não vai chover! Pode deixar as janelas abertas.";
     document.getElementById("alert-sub").textContent = danger
       ? `${motivoAlerta} · ${toClose.join(", ")}`
-      : `Vento ${dirText} ${kmh} km/h${rain ? " · chuva" : ""}`;
+      : `Vento ${dirText} ${kmh} km/h`;
 
     // Timeline — calcula quantos itens cabem (mín 48px por item)
     const timelineEl = document.getElementById("timeline");
