@@ -111,13 +111,9 @@
 
     .app-bg {
       min-height: 100dvh;
-      height: 100dvh;
-      padding: env(safe-area-inset-top, 2rem) 1.25rem env(safe-area-inset-bottom, 1rem);
-      padding-top: max(env(safe-area-inset-top), 2rem);
-      padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
-      display: flex; flex-direction: column; gap: clamp(0.4rem, 1.5vh, 0.875rem);
+      padding: 3rem 1.25rem 3rem;
+      display: flex; flex-direction: column; gap: 0.875rem;
       transition: background 0.6s ease;
-      overflow: hidden;
     }
     .app-bg.ok {
       background: linear-gradient(175deg, #0c2461 0%, #1a4a9b 22%, #0d2547 65%, #060f22 100%);
@@ -129,13 +125,13 @@
     /* Top row */
     .header-row {
       display: flex; justify-content: space-between; align-items: flex-start;
-      flex-shrink: 0;
+      margin-bottom: 0.5rem;
     }
-    .city-name { font-size: 0.65rem; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
-    .app-name  { font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 800; color: #fff; letter-spacing: -0.04em; }
+    .city-name { font-size: 0.7rem; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+    .app-name  { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; }
     .icon-btn {
       background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.7);
-      width: 34px; height: 34px; border-radius: 50%; font-size: 0.9rem; cursor: pointer;
+      width: 38px; height: 38px; border-radius: 50%; font-size: 1rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.15s; -webkit-tap-highlight-color: transparent; flex-shrink: 0;
     }
@@ -143,12 +139,12 @@
     .icon-btn.spinning { animation: spin 0.75s linear infinite; }
 
     /* Big temp */
-    .w-hero { display: flex; align-items: flex-end; gap: 0.5rem; flex-shrink: 0; }
-    .w-emoji { font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1; }
-    .w-temp  { font-size: clamp(3.5rem, 12vw, 5rem); font-weight: 200; color: #fff; line-height: 1; letter-spacing: -0.04em; }
-    .w-temp sup { font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 300; vertical-align: super; }
-    .w-desc  { font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: rgba(255,255,255,0.55); font-weight: 400; text-transform: capitalize; flex-shrink: 0; }
-    .w-feel-row { font-size: 0.75rem; color: rgba(255,255,255,0.35); flex-shrink: 0; }
+    .w-hero { display: flex; align-items: flex-end; gap: 0.75rem; margin: 0.5rem 0 0.25rem; }
+    .w-emoji { font-size: 3rem; line-height: 1; }
+    .w-temp  { font-size: 5rem; font-weight: 200; color: #fff; line-height: 1; letter-spacing: -0.04em; }
+    .w-temp sup { font-size: 1.5rem; font-weight: 300; vertical-align: super; }
+    .w-desc  { font-size: 0.95rem; color: rgba(255,255,255,0.55); font-weight: 400; text-transform: capitalize; }
+    .w-feel-row { font-size: 0.8rem; color: rgba(255,255,255,0.35); margin-top: 0.15rem; }
 
     /* Glass card base */
     .glass {
@@ -162,56 +158,57 @@
     /* Timeline */
     .timeline-scroll {
       display: flex; justify-content: space-evenly;
-      padding: clamp(0.5rem, 1.5vh, 0.875rem) 0.5rem; overflow: hidden;
-      flex-shrink: 0;
+      padding: 0.875rem 0.5rem; overflow: hidden;
     }
     .timeline-item {
       flex: 1; min-width: 0; display: flex; flex-direction: column;
-      align-items: center; gap: 0.2rem;
+      align-items: center; gap: 0.3rem;
     }
-    .timeline-time { font-size: 0.58rem; font-weight: 600; color: rgba(255,255,255,0.45); letter-spacing: 0.04em; }
-    .timeline-icon { font-size: clamp(1.1rem, 3.5vw, 1.3rem); line-height: 1; }
-    .timeline-temp { font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.85); }
+    .timeline-time { font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.45); letter-spacing: 0.04em; }
+    .timeline-icon { font-size: 1.3rem; line-height: 1; }
+    .timeline-temp { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.85); }
 
     /* Stats grid */
-    .w-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; flex-shrink: 0; }
-    .w-stat { padding: clamp(0.4rem, 1.2vh, 0.625rem) 0.875rem; }
-    .w-stat-label { font-size: 0.52rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-    .w-stat-value { font-size: clamp(0.85rem, 2.5vw, 1rem); font-weight: 600; color: #fff; margin-top: 0.15rem; }
+    .w-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+    }
+    .w-stat { padding: 0.625rem 0.875rem; }
+    .w-stat-label { font-size: 0.55rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+    .w-stat-value { font-size: 1rem; font-weight: 600; color: #fff; margin-top: 0.2rem; }
 
     /* Alert banner */
     .alert-banner {
-      padding: clamp(0.6rem, 1.8vh, 1rem) 1rem;
-      display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0;
+      padding: 1rem 1.125rem;
+      display: flex; align-items: center; gap: 0.875rem;
     }
-    .alert-icon  { font-size: clamp(1.2rem, 4vw, 1.6rem); flex-shrink: 0; }
-    .alert-title { font-size: clamp(0.8rem, 2.5vw, 0.95rem); font-weight: 700; color: #fff; line-height: 1.3; }
-    .alert-sub   { font-size: 0.68rem; color: rgba(255,255,255,0.45); margin-top: 0.2rem; }
+    .alert-icon  { font-size: 1.6rem; flex-shrink: 0; }
+    .alert-title { font-size: 0.95rem; font-weight: 700; color: #fff; line-height: 1.3; }
+    .alert-sub   { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 0.25rem; }
 
     /* Section title */
     .section-title {
-      font-size: 0.52rem; font-weight: 700;
+      font-size: 0.55rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.25); margin-bottom: 0.4rem;
+      color: rgba(255,255,255,0.25); margin-bottom: 0.6rem;
     }
 
     /* Windows grid */
-    .windows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
-    .window-card { padding: clamp(0.5rem, 1.5vh, 0.875rem) 0.75rem; transition: background 0.3s, border-color 0.3s; }
+    .windows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .window-card { padding: 0.875rem; transition: background 0.3s, border-color 0.3s; }
     .window-card.danger {
       background: rgba(180,30,30,0.3) !important;
       border-color: rgba(255,100,100,0.2) !important;
     }
     .window-card.full-width { grid-column: 1 / -1; }
-    .wc-icon   { font-size: clamp(1.1rem, 3.5vw, 1.3rem); margin-bottom: 0.25rem; }
-    .wc-name   { font-size: 0.62rem; font-weight: 500; color: rgba(255,255,255,0.35); margin-bottom: 0.2rem; letter-spacing: 0.02em; }
-    .wc-status { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.4); }
+    .wc-icon   { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    .wc-name   { font-size: 0.65rem; font-weight: 500; color: rgba(255,255,255,0.35); margin-bottom: 0.3rem; letter-spacing: 0.02em; }
+    .wc-status { font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.4); }
     .window-card.danger .wc-status { color: #ff8080; }
-    .wc-reason { font-size: 0.6rem; color: rgba(255,255,255,0.25); margin-top: 0.15rem; }
+    .wc-reason { font-size: 0.65rem; color: rgba(255,255,255,0.25); margin-top: 0.2rem; }
 
     .updated-time {
-      text-align: center; font-size: 0.65rem;
-      color: rgba(255,255,255,0.2); flex-shrink: 0;
+      text-align: center; font-size: 0.7rem;
+      color: rgba(255,255,255,0.2); padding-top: 0.5rem;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
