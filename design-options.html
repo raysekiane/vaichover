@@ -5,380 +5,447 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vaichover — Opções de Design</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #0f172a;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #080c14;
     color: #fff;
-    padding: 2rem 1rem;
+    padding: 3rem 1.5rem 4rem;
   }
-  h1 { text-align: center; font-size: 1.1rem; color: #94a3b8; margin-bottom: 2.5rem; letter-spacing: 0.05em; text-transform: uppercase; }
-
+  h1 {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #3b4a6b;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 3rem;
+    letter-spacing: -0.03em;
+  }
   .options {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 3rem;
     justify-content: center;
+    align-items: flex-start;
   }
-
-  .option {
-    width: 320px;
-  }
-  .option-label {
-    text-align: center;
-    font-size: 0.75rem;
+  .option { width: 300px; }
+  .option-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #64748b;
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #3b4a6b;
+    margin-bottom: 0.5rem;
   }
   .option-name {
-    text-align: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #e2e8f0;
-    margin-bottom: 1rem;
+    color: #94a3b8;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.02em;
+  }
+  .option-desc {
+    font-size: 0.72rem;
+    color: #3b4a6b;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
   }
   .phone {
-    border-radius: 24px;
+    border-radius: 28px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    border: 2px solid rgba(255,255,255,0.08);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
   }
 
-  /* ── OPÇÃO 1: Atual (refinada) ── */
-  .o1-header {
-    background: linear-gradient(160deg, #c0392b 0%, #922b21 100%);
-    padding: 2rem 1.25rem 1.25rem;
+  /* ══════════════════════════════════════
+     OPÇÃO A — Full Gradient (Apple Weather)
+  ══════════════════════════════════════ */
+  .a-wrap {
+    background: linear-gradient(175deg, #6b1414 0%, #9b2020 25%, #3a1a1a 70%, #1a0d0d 100%);
+    padding: 2.5rem 1.25rem 1.5rem;
   }
-  .o1-header.ok { background: linear-gradient(160deg, #2563eb 0%, #1d4ed8 100%); }
-  .o1-banner { background: #fff0ef; border: 1.5px solid #fbb4ae; color: #c0392b; }
-  .o1-banner.ok { background: #eff6ff; border-color: #bfdbfe; color: #2563eb; }
-
-  /* ── OPÇÃO 2: Dark / Noturno ── */
-  .o2-header {
-    background: linear-gradient(160deg, #7f1d1d 0%, #450a0a 100%);
-    padding: 2rem 1.25rem 1.25rem;
+  .a-wrap.ok {
+    background: linear-gradient(175deg, #0c2461 0%, #1a4a9b 25%, #0d2547 70%, #060f22 100%);
   }
-  .o2-header.ok { background: linear-gradient(160deg, #1e3a8a 0%, #0c1d4e 100%); }
-  .o2-banner { background: rgba(192,57,43,0.15); border: 1.5px solid rgba(192,57,43,0.3); color: #f87171; }
-  .o2-banner.ok { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.3); color: #93c5fd; }
-  .o2-content { background: #0f172a; }
-  .o2-card { background: #1e293b; border-color: #334155; }
-  .o2-text { color: #e2e8f0; }
-  .o2-muted { color: #64748b; }
-  .o2-label { color: #475569; }
+  .a-city { font-size: 0.75rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+  .a-appname { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.04em; color: #fff; margin-bottom: 2rem; }
+  .a-temp { font-size: 5rem; font-weight: 200; color: #fff; line-height: 1; letter-spacing: -0.04em; }
+  .a-temp sup { font-size: 1.5rem; font-weight: 300; vertical-align: super; }
+  .a-desc { font-size: 1rem; color: rgba(255,255,255,0.65); font-weight: 400; margin-top: 0.25rem; margin-bottom: 0.5rem; }
+  .a-minmax { font-size: 0.85rem; color: rgba(255,255,255,0.45); font-weight: 400; margin-bottom: 2rem; }
+  .a-timeline {
+    display: flex;
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0.875rem 0;
+    margin-bottom: 0.75rem;
+    backdrop-filter: blur(20px);
+  }
+  .a-tl { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+  .a-tl-time { font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.04em; }
+  .a-tl-icon { font-size: 1.3rem; }
+  .a-tl-temp { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.9); }
+  .a-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .a-stat {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 0.75rem;
+    backdrop-filter: blur(20px);
+  }
+  .a-stat-label { font-size: 0.58rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .a-stat-value { font-size: 1.1rem; font-weight: 600; color: #fff; margin-top: 0.2rem; }
+  .a-alert {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 1rem;
+    backdrop-filter: blur(20px);
+    display: flex; gap: 0.75rem; align-items: center;
+  }
+  .a-alert-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .a-alert-title { font-size: 0.875rem; font-weight: 700; color: #fff; }
+  .a-alert-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; }
+  .a-section-title { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.3); margin: 1rem 0 0.5rem; }
+  .a-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .a-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 0.75rem;
+    backdrop-filter: blur(10px);
+  }
+  .a-card.danger { background: rgba(180,30,30,0.25); border-color: rgba(255,100,100,0.2); }
+  .a-card-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .a-card-name { font-size: 0.65rem; color: rgba(255,255,255,0.4); font-weight: 500; margin-bottom: 0.25rem; }
+  .a-card-status { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.5); }
+  .a-card.danger .a-card-status { color: #ff8080; }
 
-  /* ── OPÇÃO 3: Moderno / Bold ── */
-  .o3-header {
-    background: #c0392b;
-    padding: 2rem 1.25rem 0;
+  /* ══════════════════════════════════════
+     OPÇÃO B — Minimal Premium (Light)
+  ══════════════════════════════════════ */
+  .b-wrap { background: #fafafa; }
+  .b-header {
+    background: linear-gradient(135deg, #c0392b 0%, #922b21 100%);
+    padding: 2.5rem 1.25rem 3rem;
     position: relative;
   }
-  .o3-header.ok { background: #2563eb; }
-  .o3-header::after {
+  .b-header.ok { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+  .b-header::after {
     content: '';
-    display: block;
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
     height: 32px;
-    background: #f8fafc;
-    border-radius: 24px 24px 0 0;
-    margin-top: 1.25rem;
+    background: #fafafa;
+    border-radius: 28px 28px 0 0;
   }
-  .o3-banner-danger { background: #c0392b; color: #fff; border: none; border-radius: 16px; }
-  .o3-banner-ok { background: #2563eb; color: #fff; border: none; border-radius: 16px; }
-
-  /* ── OPÇÃO 4: Glassmorphism ── */
-  .o4-body { background: linear-gradient(135deg, #1a0a0a 0%, #0a0a1a 100%); }
-  .o4-header-danger {
-    background: linear-gradient(135deg, rgba(192,57,43,0.9) 0%, rgba(146,43,33,0.95) 100%);
-    backdrop-filter: blur(20px);
-    padding: 2rem 1.25rem 1.25rem;
+  .b-appname { font-size: 1.5rem; font-weight: 800; color: rgba(255,255,255,0.9); letter-spacing: -0.04em; }
+  .b-city { font-size: 0.7rem; color: rgba(255,255,255,0.55); font-weight: 500; letter-spacing: 0.04em; margin-top: 0.1rem; }
+  .b-temp-row { display: flex; align-items: flex-end; gap: 0.5rem; margin-top: 1.5rem; }
+  .b-temp { font-size: 4.5rem; font-weight: 200; color: #fff; line-height: 1; letter-spacing: -0.04em; }
+  .b-temp sup { font-size: 1.2rem; font-weight: 300; }
+  .b-emoji { font-size: 2.5rem; margin-bottom: 0.25rem; }
+  .b-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem; font-weight: 400; }
+  .b-content { padding: 1.25rem; background: #fafafa; }
+  .b-timeline {
+    display: flex;
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #f0f0f0;
+    padding: 1rem 0;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    margin-bottom: 1rem;
   }
-  .o4-header-ok {
-    background: linear-gradient(135deg, rgba(37,99,235,0.9) 0%, rgba(29,78,216,0.95) 100%);
-    backdrop-filter: blur(20px);
-    padding: 2rem 1.25rem 1.25rem;
+  .b-tl { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+  .b-tl-time { font-size: 0.6rem; font-weight: 600; color: #94a3b8; letter-spacing: 0.04em; }
+  .b-tl-icon { font-size: 1.3rem; }
+  .b-tl-temp { font-size: 0.72rem; font-weight: 700; color: #1e293b; }
+  .b-alert {
+    border-radius: 18px;
+    padding: 1rem 1.125rem;
+    display: flex; gap: 0.75rem; align-items: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
   }
-  .o4-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
+  .b-alert-danger { background: #fff5f5; border: 1.5px solid #fecaca; }
+  .b-alert-ok { background: #eff6ff; border: 1.5px solid #bfdbfe; }
+  .b-alert-icon { font-size: 1.5rem; }
+  .b-alert-title-d { font-size: 0.875rem; font-weight: 800; color: #c0392b; letter-spacing: -0.01em; }
+  .b-alert-title-o { font-size: 0.875rem; font-weight: 800; color: #2563eb; letter-spacing: -0.01em; }
+  .b-alert-sub { font-size: 0.68rem; color: #94a3b8; margin-top: 0.2rem; }
+  .b-section-title { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #cbd5e1; margin-bottom: 0.6rem; }
+  .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .b-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 0.875rem;
+    border: 1.5px solid #f0f4f8;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
   }
-  .o4-banner-danger {
-    background: rgba(192,57,43,0.2);
-    border: 1px solid rgba(192,57,43,0.4);
-    color: #fca5a5;
-    backdrop-filter: blur(10px);
+  .b-card.danger { background: #fff5f5; border-color: #fecaca; }
+  .b-card-icon { font-size: 1.25rem; margin-bottom: 0.35rem; }
+  .b-card-name { font-size: 0.65rem; color: #94a3b8; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+  .b-card-status { font-size: 0.78rem; font-weight: 800; color: #2563eb; }
+  .b-card.danger .b-card-status { color: #c0392b; }
+  .b-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.6rem;
   }
-  .o4-banner-ok {
-    background: rgba(37,99,235,0.2);
-    border: 1px solid rgba(37,99,235,0.4);
-    color: #93c5fd;
-    backdrop-filter: blur(10px);
-  }
-  .o4-body-bg { background: #0f0f1a; }
-
-  /* ── Shared components ── */
-  .app-name { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
-  .city { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 0.15rem; }
-  .header-row { display: flex; justify-content: space-between; align-items: flex-start; }
-  .refresh-btn {
-    background: rgba(255,255,255,0.18);
-    border: none; color: #fff;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .weather-strip {
-    margin-top: 1rem;
-    background: rgba(255,255,255,0.15);
+  .b-stat {
+    background: #fff;
     border-radius: 14px;
-    padding: 0.875rem 1rem;
-    color: #fff;
-    display: flex; align-items: center; gap: 0.875rem;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid #f0f4f8;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
   }
-  .w-emoji { font-size: 2.5rem; line-height: 1; }
-  .w-temp { font-size: 2.2rem; font-weight: 700; line-height: 1; }
-  .w-temp sup { font-size: 1rem; font-weight: 400; }
-  .w-desc { font-size: 0.8rem; opacity: 0.8; margin-top: 0.15rem; }
-  .w-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.75rem; }
-  .w-stat {
+  .b-stat-label { font-size: 0.55rem; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .b-stat-value { font-size: 0.9rem; font-weight: 800; color: #1e293b; margin-top: 0.15rem; }
+
+  /* ══════════════════════════════════════
+     OPÇÃO C — Escuro Elegante
+  ══════════════════════════════════════ */
+  .c-wrap { background: #111318; }
+  .c-header-danger {
+    background: linear-gradient(160deg, #7f1d1d 0%, #3b0a0a 100%);
+    padding: 2.5rem 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .c-header-ok {
+    background: linear-gradient(160deg, #1e3a8a 0%, #0c1a45 100%);
+    padding: 2.5rem 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .c-appname { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; }
+  .c-city { font-size: 0.7rem; color: rgba(255,255,255,0.35); font-weight: 500; letter-spacing: 0.06em; margin-top: 0.1rem; }
+  .c-temp { font-size: 4rem; font-weight: 200; color: #fff; line-height: 1; letter-spacing: -0.04em; margin-top: 1.25rem; }
+  .c-temp sup { font-size: 1.2rem; font-weight: 300; }
+  .c-desc { font-size: 0.82rem; color: rgba(255,255,255,0.4); margin-top: 0.3rem; }
+  .c-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 1rem; }
+  .c-stat {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+  }
+  .c-stat-label { font-size: 0.55rem; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .c-stat-value { font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.85); margin-top: 0.15rem; }
+  .c-content { padding: 1.25rem; background: #111318; }
+  .c-timeline {
+    display: flex;
+    background: #1a1e27;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 0.875rem 0;
+    margin-bottom: 1rem;
+  }
+  .c-tl { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+  .c-tl-time { font-size: 0.58rem; font-weight: 600; color: rgba(255,255,255,0.25); }
+  .c-tl-icon { font-size: 1.25rem; }
+  .c-tl-temp { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.7); }
+  .c-alert {
+    border-radius: 16px;
+    padding: 1rem 1.125rem;
+    display: flex; gap: 0.75rem; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .c-alert-danger { background: rgba(127,29,29,0.4); border: 1px solid rgba(239,68,68,0.15); }
+  .c-alert-ok { background: rgba(30,58,138,0.4); border: 1px solid rgba(59,130,246,0.15); }
+  .c-alert-icon { font-size: 1.4rem; }
+  .c-alert-title { font-size: 0.875rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+  .c-alert-sub { font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-top: 0.2rem; }
+  .c-section-title { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.2); margin-bottom: 0.6rem; }
+  .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .c-card {
+    background: #1a1e27;
+    border-radius: 14px;
+    padding: 0.875rem;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .c-card.danger { background: rgba(127,29,29,0.3); border-color: rgba(239,68,68,0.12); }
+  .c-card-icon { font-size: 1.2rem; margin-bottom: 0.35rem; }
+  .c-card-name { font-size: 0.62rem; color: rgba(255,255,255,0.25); font-weight: 600; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .c-card-status { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.3); }
+  .c-card.danger .c-card-status { color: #f87171; }
+
+  /* header row shared */
+  .hrow { display: flex; justify-content: space-between; align-items: flex-start; }
+  .rbtn {
     background: rgba(255,255,255,0.12);
-    border-radius: 10px; padding: 0.4rem 0.7rem; color: #fff;
+    border: none; color: rgba(255,255,255,0.7);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
-  .w-stat-label { font-size: 0.6rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.07em; }
-  .w-stat-value { font-size: 0.85rem; font-weight: 700; margin-top: 0.1rem; }
-
-  .timeline {
-    display: flex; justify-content: space-evenly;
-    padding: 0.875rem 0.5rem;
-  }
-  .tl-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; color: rgba(255,255,255,0.9); }
-  .tl-time { font-size: 0.65rem; font-weight: 600; }
-  .tl-icon { font-size: 1.4rem; }
-  .tl-temp { font-size: 0.65rem; font-weight: 600; }
-
-  .content { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; background: #f8fafc; }
-  .content.dark { background: #0f172a; }
-  .content.dark2 { background: #0f0f1a; }
-
-  .alert-banner {
-    border-radius: 14px; padding: 0.875rem 1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .alert-icon { font-size: 1.5rem; flex-shrink: 0; }
-  .alert-title { font-weight: 700; font-size: 0.95rem; }
-  .alert-sub { font-size: 0.75rem; opacity: 0.7; margin-top: 0.15rem; }
-
-  .section-title {
-    font-size: 0.65rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.09em;
-    color: #94a3b8; margin-bottom: 0.5rem;
-  }
-  .windows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-  .wc {
-    background: #fff; border-radius: 14px; padding: 0.75rem;
-    border: 1.5px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  }
-  .wc.dark { background: #1e293b; border-color: #334155; }
-  .wc.dark2 { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
-  .wc.danger { background: #fff0ef; border-color: #fbb4ae; }
-  .wc.danger-dark { background: rgba(192,57,43,0.15); border-color: rgba(192,57,43,0.3); }
-  .wc-icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
-  .wc-name { font-size: 0.7rem; font-weight: 600; color: #64748b; margin-bottom: 0.3rem; }
-  .wc-name.light { color: #94a3b8; }
-  .wc-status { font-size: 0.8rem; font-weight: 700; color: #16a34a; }
-  .wc-status.danger { color: #c0392b; }
-  .wc-status.danger-light { color: #f87171; }
-  .wc-status.ok-blue { color: #2563eb; }
-  .wc-status.ok-light { color: #93c5fd; }
 </style>
 </head>
 <body>
-<h1>Vaichover — Opções de Design</h1>
+
+<h1>Vaichover?</h1>
+<h2>Opções de design</h2>
 
 <div class="options">
 
-  <!-- ── OPÇÃO 1: Atual Refinada ── -->
+  <!-- OPÇÃO A -->
   <div class="option">
-    <div class="option-label">Opção 1</div>
-    <div class="option-name">Atual Refinada</div>
+    <div class="option-tag">Opção A</div>
+    <div class="option-name">Imersivo</div>
+    <div class="option-desc">Fundo gradiente ocupa toda a tela. Inspirado no Apple Weather. Sensação premium e envolvente.</div>
     <div class="phone">
-      <div class="o1-header">
-        <div class="header-row">
-          <div><div class="app-name">Vaichover?</div><div class="city">Florianópolis</div></div>
-          <div class="refresh-btn">↻</div>
-        </div>
-        <div class="weather-strip">
-          <div class="w-emoji">🌧️</div>
-          <div><div class="w-temp">17<sup>°C</sup></div><div class="w-desc">Chuva Moderada</div></div>
-        </div>
-        <div class="w-stats">
-          <div class="w-stat"><div class="w-stat-label">Vento</div><div class="w-stat-value">7 km/h</div></div>
-          <div class="w-stat"><div class="w-stat-label">Direção</div><div class="w-stat-value">Sul</div></div>
-          <div class="w-stat"><div class="w-stat-label">Umidade</div><div class="w-stat-value">95%</div></div>
-          <div class="w-stat"><div class="w-stat-label">Sensação</div><div class="w-stat-value">16°C</div></div>
-        </div>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-time">Agora</div><div class="tl-icon">🌧️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">21h</div><div class="tl-icon">🌧️</div><div class="tl-temp">19°</div></div>
-          <div class="tl-item"><div class="tl-time">00h</div><div class="tl-icon">☁️</div><div class="tl-temp">18°</div></div>
-          <div class="tl-item"><div class="tl-time">03h</div><div class="tl-icon">☁️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">06h</div><div class="tl-icon">⛅</div><div class="tl-temp">17°</div></div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="alert-banner o1-banner">
-          <div class="alert-icon">🌧️</div>
-          <div><div class="alert-title">Vai chover! Feche as janelas.</div><div class="alert-sub">Chuva prevista · Sala, Quarto</div></div>
-        </div>
-        <div>
-          <div class="section-title">Status das janelas</div>
-          <div class="windows-grid">
-            <div class="wc danger"><div class="wc-icon">🛋️</div><div class="wc-name">Sala</div><div class="wc-status danger">❌ FECHAR</div></div>
-            <div class="wc"><div class="wc-icon">💼</div><div class="wc-name">Escrit. Pati</div><div class="wc-status ok-blue">✅ Aberta</div></div>
-            <div class="wc danger"><div class="wc-icon">🛏️</div><div class="wc-name">Quarto</div><div class="wc-status danger">❌ FECHAR</div></div>
-            <div class="wc"><div class="wc-icon">💻</div><div class="wc-name">Escrit. Ra</div><div class="wc-status ok-blue">✅ Aberta</div></div>
+      <div class="a-wrap">
+        <div class="hrow" style="margin-bottom:0.25rem">
+          <div>
+            <div class="a-city">Florianópolis</div>
+            <div class="a-appname">Vaichover?</div>
           </div>
+          <div class="rbtn">↻</div>
+        </div>
+        <div class="a-temp">17<sup>°</sup></div>
+        <div class="a-desc">Chuva Moderada</div>
+        <div class="a-minmax">Máx. 20° · Mín. 14°</div>
+        <div class="a-timeline">
+          <div class="a-tl"><div class="a-tl-time">Agora</div><div class="a-tl-icon">🌧️</div><div class="a-tl-temp">17°</div></div>
+          <div class="a-tl"><div class="a-tl-time">21h</div><div class="a-tl-icon">🌧️</div><div class="a-tl-temp">19°</div></div>
+          <div class="a-tl"><div class="a-tl-time">00h</div><div class="a-tl-icon">☁️</div><div class="a-tl-temp">18°</div></div>
+          <div class="a-tl"><div class="a-tl-time">03h</div><div class="a-tl-icon">☁️</div><div class="a-tl-temp">17°</div></div>
+          <div class="a-tl"><div class="a-tl-time">06h</div><div class="a-tl-icon">⛅</div><div class="a-tl-temp">17°</div></div>
+        </div>
+        <div class="a-stats">
+          <div class="a-stat"><div class="a-stat-label">Vento</div><div class="a-stat-value">7 km/h</div></div>
+          <div class="a-stat"><div class="a-stat-label">Direção</div><div class="a-stat-value">Sul</div></div>
+          <div class="a-stat"><div class="a-stat-label">Umidade</div><div class="a-stat-value">95%</div></div>
+          <div class="a-stat"><div class="a-stat-label">Sensação</div><div class="a-stat-value">16°C</div></div>
+        </div>
+        <div class="a-alert" style="margin-top:0.75rem">
+          <div class="a-alert-icon">🌧️</div>
+          <div>
+            <div class="a-alert-title">Vai chover! Feche as janelas.</div>
+            <div class="a-alert-sub">Chuva prevista · Sala, Quarto</div>
+          </div>
+        </div>
+        <div class="a-section-title" style="margin-top:1rem">Status das janelas</div>
+        <div class="a-grid">
+          <div class="a-card danger"><div class="a-card-icon">🛋️</div><div class="a-card-name">Sala</div><div class="a-card-status">❌ Fechar</div></div>
+          <div class="a-card"><div class="a-card-icon">💼</div><div class="a-card-name">Escrit. Pati</div><div class="a-card-status">✓ Aberta</div></div>
+          <div class="a-card danger"><div class="a-card-icon">🛏️</div><div class="a-card-name">Quarto</div><div class="a-card-status">❌ Fechar</div></div>
+          <div class="a-card"><div class="a-card-icon">💻</div><div class="a-card-name">Escrit. Ra</div><div class="a-card-status">✓ Aberta</div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── OPÇÃO 2: Dark ── -->
+  <!-- OPÇÃO B -->
   <div class="option">
-    <div class="option-label">Opção 2</div>
-    <div class="option-name">Dark / Noturno</div>
+    <div class="option-tag">Opção B</div>
+    <div class="option-name">Minimalista Premium</div>
+    <div class="option-desc">Fundo branco limpo, header colorido com curva. Elegância através da leveza e espaçamento.</div>
     <div class="phone">
-      <div class="o2-header">
-        <div class="header-row">
-          <div><div class="app-name">Vaichover?</div><div class="city">Florianópolis</div></div>
-          <div class="refresh-btn">↻</div>
+      <div class="b-wrap">
+        <div class="b-header">
+          <div class="hrow">
+            <div>
+              <div class="b-appname">Vaichover?</div>
+              <div class="b-city">Florianópolis</div>
+            </div>
+            <div class="rbtn">↻</div>
+          </div>
+          <div class="b-temp-row">
+            <div class="b-temp">17<sup>°</sup></div>
+            <div class="b-emoji">🌧️</div>
+          </div>
+          <div class="b-desc">Chuva Moderada · Máx. 20° · Mín. 14°</div>
         </div>
-        <div class="weather-strip">
-          <div class="w-emoji">🌧️</div>
-          <div><div class="w-temp">17<sup>°C</sup></div><div class="w-desc">Chuva Moderada</div></div>
-        </div>
-        <div class="w-stats">
-          <div class="w-stat"><div class="w-stat-label">Vento</div><div class="w-stat-value">7 km/h</div></div>
-          <div class="w-stat"><div class="w-stat-label">Direção</div><div class="w-stat-value">Sul</div></div>
-          <div class="w-stat"><div class="w-stat-label">Umidade</div><div class="w-stat-value">95%</div></div>
-          <div class="w-stat"><div class="w-stat-label">Sensação</div><div class="w-stat-value">16°C</div></div>
-        </div>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-time">Agora</div><div class="tl-icon">🌧️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">21h</div><div class="tl-icon">🌧️</div><div class="tl-temp">19°</div></div>
-          <div class="tl-item"><div class="tl-time">00h</div><div class="tl-icon">☁️</div><div class="tl-temp">18°</div></div>
-          <div class="tl-item"><div class="tl-time">03h</div><div class="tl-icon">☁️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">06h</div><div class="tl-icon">⛅</div><div class="tl-temp">17°</div></div>
-        </div>
-      </div>
-      <div class="content dark">
-        <div class="alert-banner o2-banner">
-          <div class="alert-icon">🌧️</div>
-          <div><div class="alert-title" style="color:#f87171">Vai chover! Feche as janelas.</div><div class="alert-sub" style="color:#94a3b8">Chuva prevista · Sala, Quarto</div></div>
-        </div>
-        <div>
-          <div class="section-title">Status das janelas</div>
-          <div class="windows-grid">
-            <div class="wc dark danger-dark"><div class="wc-icon">🛋️</div><div class="wc-name light">Sala</div><div class="wc-status danger-light">❌ FECHAR</div></div>
-            <div class="wc dark"><div class="wc-icon">💼</div><div class="wc-name light">Escrit. Pati</div><div class="wc-status ok-light">✅ Aberta</div></div>
-            <div class="wc dark danger-dark"><div class="wc-icon">🛏️</div><div class="wc-name light">Quarto</div><div class="wc-status danger-light">❌ FECHAR</div></div>
-            <div class="wc dark"><div class="wc-icon">💻</div><div class="wc-name light">Escrit. Ra</div><div class="wc-status ok-light">✅ Aberta</div></div>
+        <div class="b-content">
+          <div class="b-timeline">
+            <div class="b-tl"><div class="b-tl-time">Agora</div><div class="b-tl-icon">🌧️</div><div class="b-tl-temp">17°</div></div>
+            <div class="b-tl"><div class="b-tl-time">21h</div><div class="b-tl-icon">🌧️</div><div class="b-tl-temp">19°</div></div>
+            <div class="b-tl"><div class="b-tl-time">00h</div><div class="b-tl-icon">☁️</div><div class="b-tl-temp">18°</div></div>
+            <div class="b-tl"><div class="b-tl-time">03h</div><div class="b-tl-icon">☁️</div><div class="b-tl-temp">17°</div></div>
+            <div class="b-tl"><div class="b-tl-time">06h</div><div class="b-tl-icon">⛅</div><div class="b-tl-temp">17°</div></div>
+          </div>
+          <div class="b-alert b-alert-danger">
+            <div class="b-alert-icon">🌧️</div>
+            <div>
+              <div class="b-alert-title-d">Vai chover! Feche as janelas.</div>
+              <div class="b-alert-sub">Chuva prevista · Sala, Quarto</div>
+            </div>
+          </div>
+          <div class="b-stats">
+            <div class="b-stat"><div class="b-stat-label">Vento</div><div class="b-stat-value">7 km/h</div></div>
+            <div class="b-stat"><div class="b-stat-label">Direção</div><div class="b-stat-value">Sul</div></div>
+            <div class="b-stat"><div class="b-stat-label">Umidade</div><div class="b-stat-value">95%</div></div>
+            <div class="b-stat"><div class="b-stat-label">Sensação</div><div class="b-stat-value">16°C</div></div>
+          </div>
+          <div class="b-section-title" style="margin-top:1rem">Status das janelas</div>
+          <div class="b-grid">
+            <div class="b-card danger"><div class="b-card-icon">🛋️</div><div class="b-card-name">Sala</div><div class="b-card-status">❌ Fechar</div></div>
+            <div class="b-card"><div class="b-card-icon">💼</div><div class="b-card-name">Escrit. Pati</div><div class="b-card-status">✓ Aberta</div></div>
+            <div class="b-card danger"><div class="b-card-icon">🛏️</div><div class="b-card-name">Quarto</div><div class="b-card-status">❌ Fechar</div></div>
+            <div class="b-card"><div class="b-card-icon">💻</div><div class="b-card-name">Escrit. Ra</div><div class="b-card-status">✓ Aberta</div></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── OPÇÃO 3: Bold / Moderno ── -->
+  <!-- OPÇÃO C -->
   <div class="option">
-    <div class="option-label">Opção 3</div>
-    <div class="option-name">Bold / Moderno</div>
-    <div class="phone" style="background:#f8fafc">
-      <div class="o3-header">
-        <div class="header-row">
-          <div><div class="app-name">Vaichover?</div><div class="city">Florianópolis</div></div>
-          <div class="refresh-btn">↻</div>
-        </div>
-        <div class="weather-strip" style="margin-top:1rem">
-          <div class="w-emoji">🌧️</div>
-          <div><div class="w-temp">17<sup>°C</sup></div><div class="w-desc">Chuva Moderada</div></div>
-        </div>
-        <div class="w-stats">
-          <div class="w-stat"><div class="w-stat-label">Vento</div><div class="w-stat-value">7 km/h</div></div>
-          <div class="w-stat"><div class="w-stat-label">Direção</div><div class="w-stat-value">Sul</div></div>
-          <div class="w-stat"><div class="w-stat-label">Umidade</div><div class="w-stat-value">95%</div></div>
-          <div class="w-stat"><div class="w-stat-label">Sensação</div><div class="w-stat-value">16°C</div></div>
-        </div>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-time">Agora</div><div class="tl-icon">🌧️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">21h</div><div class="tl-icon">🌧️</div><div class="tl-temp">19°</div></div>
-          <div class="tl-item"><div class="tl-time">00h</div><div class="tl-icon">☁️</div><div class="tl-temp">18°</div></div>
-          <div class="tl-item"><div class="tl-time">03h</div><div class="tl-icon">☁️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">06h</div><div class="tl-icon">⛅</div><div class="tl-temp">17°</div></div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="alert-banner o3-banner-danger">
-          <div class="alert-icon">🌧️</div>
-          <div><div class="alert-title" style="color:#fff">Vai chover! Feche as janelas.</div><div class="alert-sub" style="color:rgba(255,255,255,0.75)">Chuva prevista · Sala, Quarto</div></div>
-        </div>
-        <div>
-          <div class="section-title">Status das janelas</div>
-          <div class="windows-grid">
-            <div class="wc danger"><div class="wc-icon">🛋️</div><div class="wc-name">Sala</div><div class="wc-status danger">❌ FECHAR</div></div>
-            <div class="wc"><div class="wc-icon">💼</div><div class="wc-name">Escrit. Pati</div><div class="wc-status ok-blue">✅ Aberta</div></div>
-            <div class="wc danger"><div class="wc-icon">🛏️</div><div class="wc-name">Quarto</div><div class="wc-status danger">❌ FECHAR</div></div>
-            <div class="wc"><div class="wc-icon">💻</div><div class="wc-name">Escrit. Ra</div><div class="wc-status ok-blue">✅ Aberta</div></div>
+    <div class="option-tag">Opção C</div>
+    <div class="option-name">Escuro Elegante</div>
+    <div class="option-desc">Dark mode sofisticado. Contraste sutil, tipografia leve. Confortável para uso noturno.</div>
+    <div class="phone">
+      <div class="c-wrap">
+        <div class="c-header-danger">
+          <div class="hrow">
+            <div>
+              <div class="c-appname">Vaichover?</div>
+              <div class="c-city">Florianópolis</div>
+            </div>
+            <div class="rbtn">↻</div>
+          </div>
+          <div class="c-temp">17<sup>°</sup></div>
+          <div class="c-desc">Chuva Moderada</div>
+          <div class="c-stats">
+            <div class="c-stat"><div class="c-stat-label">Vento</div><div class="c-stat-value">7 km/h</div></div>
+            <div class="c-stat"><div class="c-stat-label">Direção</div><div class="c-stat-value">Sul</div></div>
+            <div class="c-stat"><div class="c-stat-label">Umidade</div><div class="c-stat-value">95%</div></div>
+            <div class="c-stat"><div class="c-stat-label">Sensação</div><div class="c-stat-value">16°C</div></div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── OPÇÃO 4: Glassmorphism ── -->
-  <div class="option">
-    <div class="option-label">Opção 4</div>
-    <div class="option-name">Glassmorphism</div>
-    <div class="phone" style="background:#0f0f1a">
-      <div class="o4-header-danger">
-        <div class="header-row">
-          <div><div class="app-name">Vaichover?</div><div class="city">Florianópolis</div></div>
-          <div class="refresh-btn">↻</div>
-        </div>
-        <div class="weather-strip" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15)">
-          <div class="w-emoji">🌧️</div>
-          <div><div class="w-temp">17<sup>°C</sup></div><div class="w-desc">Chuva Moderada</div></div>
-        </div>
-        <div class="w-stats">
-          <div class="w-stat" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12)"><div class="w-stat-label">Vento</div><div class="w-stat-value">7 km/h</div></div>
-          <div class="w-stat" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12)"><div class="w-stat-label">Direção</div><div class="w-stat-value">Sul</div></div>
-          <div class="w-stat" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12)"><div class="w-stat-label">Umidade</div><div class="w-stat-value">95%</div></div>
-          <div class="w-stat" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12)"><div class="w-stat-label">Sensação</div><div class="w-stat-value">16°C</div></div>
-        </div>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-time">Agora</div><div class="tl-icon">🌧️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">21h</div><div class="tl-icon">🌧️</div><div class="tl-temp">19°</div></div>
-          <div class="tl-item"><div class="tl-time">00h</div><div class="tl-icon">☁️</div><div class="tl-temp">18°</div></div>
-          <div class="tl-item"><div class="tl-time">03h</div><div class="tl-icon">☁️</div><div class="tl-temp">17°</div></div>
-          <div class="tl-item"><div class="tl-time">06h</div><div class="tl-icon">⛅</div><div class="tl-temp">17°</div></div>
-        </div>
-      </div>
-      <div class="content dark2">
-        <div class="alert-banner o4-banner-danger">
-          <div class="alert-icon">🌧️</div>
-          <div><div class="alert-title" style="color:#fca5a5">Vai chover! Feche as janelas.</div><div class="alert-sub" style="color:#64748b">Chuva prevista · Sala, Quarto</div></div>
-        </div>
-        <div>
-          <div class="section-title">Status das janelas</div>
-          <div class="windows-grid">
-            <div class="wc dark2" style="background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.3)"><div class="wc-icon">🛋️</div><div class="wc-name light">Sala</div><div class="wc-status danger-light">❌ FECHAR</div></div>
-            <div class="wc dark2"><div class="wc-icon">💼</div><div class="wc-name light">Escrit. Pati</div><div class="wc-status ok-light">✅ Aberta</div></div>
-            <div class="wc dark2" style="background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.3)"><div class="wc-icon">🛏️</div><div class="wc-name light">Quarto</div><div class="wc-status danger-light">❌ FECHAR</div></div>
-            <div class="wc dark2"><div class="wc-icon">💻</div><div class="wc-name light">Escrit. Ra</div><div class="wc-status ok-light">✅ Aberta</div></div>
+        <div class="c-content">
+          <div class="c-timeline">
+            <div class="c-tl"><div class="c-tl-time">Agora</div><div class="c-tl-icon">🌧️</div><div class="c-tl-temp">17°</div></div>
+            <div class="c-tl"><div class="c-tl-time">21h</div><div class="c-tl-icon">🌧️</div><div class="c-tl-temp">19°</div></div>
+            <div class="c-tl"><div class="c-tl-time">00h</div><div class="c-tl-icon">☁️</div><div class="c-tl-temp">18°</div></div>
+            <div class="c-tl"><div class="c-tl-time">03h</div><div class="c-tl-icon">☁️</div><div class="c-tl-temp">17°</div></div>
+            <div class="c-tl"><div class="c-tl-time">06h</div><div class="c-tl-icon">⛅</div><div class="c-tl-temp">17°</div></div>
+          </div>
+          <div class="c-alert c-alert-danger">
+            <div class="c-alert-icon">🌧️</div>
+            <div>
+              <div class="c-alert-title">Vai chover! Feche as janelas.</div>
+              <div class="c-alert-sub">Chuva prevista · Sala, Quarto</div>
+            </div>
+          </div>
+          <div class="c-section-title">Status das janelas</div>
+          <div class="c-grid">
+            <div class="c-card danger"><div class="c-card-icon">🛋️</div><div class="c-card-name">Sala</div><div class="c-card-status">❌ Fechar</div></div>
+            <div class="c-card"><div class="c-card-icon">💼</div><div class="c-card-name">Escrit. Pati</div><div class="c-card-status">✓ Aberta</div></div>
+            <div class="c-card danger"><div class="c-card-icon">🛏️</div><div class="c-card-name">Quarto</div><div class="c-card-status">❌ Fechar</div></div>
+            <div class="c-card"><div class="c-card-icon">💻</div><div class="c-card-name">Escrit. Ra</div><div class="c-card-status">✓ Aberta</div></div>
           </div>
         </div>
       </div>
