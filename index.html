@@ -502,7 +502,7 @@
     // Pega slots futuros (inclui o atual) e limita a 4: Agora + 3 próximos
     const futuros = list
       .filter(item => (item.dt * 1000 + 3 * 3600 * 1000) > tsAgora)
-      .slice(0, 4);
+      .slice(0, 6);
 
     return futuros.map((item, i) => {
       const dt = new Date(item.dt * 1000);
