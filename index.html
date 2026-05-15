@@ -317,9 +317,7 @@
       color: #fff;
       scroll-snap-align: start;
     }
-    .timeline-item.past {
-      opacity: 0.35;
-    }
+
     .timeline-time {
       font-size: 0.7rem;
       font-weight: 600;
@@ -499,28 +497,23 @@
   function gerarTimeline(list) {
     const agora = new Date();
     const diaHoje = agora.toDateString();
-    const horaAtual = agora.getHours();
-    const horariosFixos = [0, 3, 6, 9, 12, 15, 18, 21, 24];
-    const mapa = {};
+    const tsAgora = agora.getTime();
 
-    list.forEach(item => {
+    // Filtra apenas itens de hoje a partir de agora (inclui o slot atual)
+    const itensHoje = list.filter(item => {
       const dt = new Date(item.dt * 1000);
-      if (dt.toDateString() !== diaHoje) return;
-      const hora = dt.getHours();
-      if (!mapa[hora]) mapa[hora] = item;
+      // Inclui se for hoje E se o slot ainda não encerrou (dt + 3h > agora)
+      return dt.toDateString() === diaHoje && (item.dt * 1000 + 3 * 3600 * 1000) > tsAgora;
     });
 
-    return horariosFixos.map(hora => {
-      const h = hora === 24 ? 0 : hora;
-      const past = hora < horaAtual;
-      const item = mapa[h];
-      if (!item) return { hora, icon: past ? "" : "…", temp: past ? "" : "…", past };
+    return itensHoje.map((item, i) => {
+      const dt = new Date(item.dt * 1000);
+      const hora = dt.getHours();
       const main = item.weather[0].main;
       return {
-        hora,
+        label: i === 0 ? "Agora" : `${String(hora).padStart(2, '0')}h`,
         icon: WEATHER_EMOJI[main] || "🌡️",
         temp: Math.round(item.main.temp) + "°",
-        past,
       };
     });
   }
@@ -701,8 +694,8 @@
     // Timeline
     const timeline = gerarTimeline(data.list);
     document.getElementById("timeline").innerHTML = timeline.map(t =>
-      `<div class="timeline-item${t.past ? " past" : ""}">
-        <div class="timeline-time">${String(t.hora === 24 ? 0 : t.hora).padStart(2, '0')}h</div>
+      `<div class="timeline-item">
+        <div class="timeline-time">${t.label}</div>
         <div class="timeline-icon">${t.icon}</div>
         <div class="timeline-temp">${t.temp}</div>
       </div>`
