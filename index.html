@@ -289,33 +289,20 @@
     }
     .timeline-scroll {
       display: flex;
-      gap: 0.75rem;
-      padding: 0 1.25rem;
-      justify-content: center;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-    }
-    .timeline-scroll::-webkit-scrollbar {
-      height: 4px;
-    }
-    .timeline-scroll::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.1);
-    }
-    .timeline-scroll::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
-      border-radius: 2px;
+      padding: 0 0.5rem;
+      justify-content: space-evenly;
+      overflow: hidden;
     }
 
     .timeline-item {
-      flex-shrink: 0;
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.3rem;
-      padding: 0.5rem 0.6rem;
+      gap: 0.25rem;
+      padding: 0.4rem 0.25rem;
       color: #fff;
-      scroll-snap-align: start;
     }
 
     .timeline-time {
@@ -494,15 +481,13 @@
     });
   }
 
-  function gerarTimeline(list) {
+  function gerarTimeline(list, maxItens = 6) {
     const agora = new Date();
-    const diaHoje = agora.toDateString();
     const tsAgora = agora.getTime();
 
-    // Pega slots futuros (inclui o atual) e limita a 4: Agora + 3 próximos
     const futuros = list
       .filter(item => (item.dt * 1000 + 3 * 3600 * 1000) > tsAgora)
-      .slice(0, 6);
+      .slice(0, maxItens);
 
     return futuros.map((item, i) => {
       const dt = new Date(item.dt * 1000);
@@ -689,9 +674,12 @@
       ? `${motivoAlerta} · ${toClose.join(", ")}`
       : `Vento ${dirText} ${kmh} km/h${rain ? " · chuva" : ""}`;
 
-    // Timeline
-    const timeline = gerarTimeline(data.list);
-    document.getElementById("timeline").innerHTML = timeline.map(t =>
+    // Timeline — calcula quantos itens cabem (mín 48px por item)
+    const timelineEl = document.getElementById("timeline");
+    const larguraDisp = timelineEl.parentElement.offsetWidth || window.innerWidth;
+    const maxItens = Math.max(2, Math.min(6, Math.floor(larguraDisp / 48)));
+    const timeline = gerarTimeline(data.list, maxItens);
+    timelineEl.innerHTML = timeline.map(t =>
       `<div class="timeline-item">
         <div class="timeline-time">${t.label}</div>
         <div class="timeline-icon">${t.icon}</div>
