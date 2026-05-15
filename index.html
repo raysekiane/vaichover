@@ -15,7 +15,7 @@
       const danger = localStorage.getItem("vw_danger") === "1";
       document.addEventListener("DOMContentLoaded", () => {
         const h = document.getElementById("header");
-        if (h) h.className = `header ${danger ? "danger" : "ok"}`;
+        if (h) h.className = `app-bg ${danger ? "danger" : "ok"}`;
       });
     } catch(_) {}
   </script>
@@ -26,31 +26,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ok:         #2563eb;
-      --ok-bg:      #eff6ff;
-      --ok-border:  #bfdbfe;
-      --danger:     #c0392b;
-      --danger-bg:  #fff0ef;
-      --danger-border: #fbb4ae;
-      --blue:       #2563eb;
-      --blue-dark:  #1d4ed8;
-      --red:        #c0392b;
-      --red-dark:   #a93226;
-      --text:       #1a2238;
-      --text-muted: #64748b;
-      --bg:         #f1f5f9;
-      --card:       #ffffff;
-      --border:     #e2e8f0;
-      --radius:     16px;
+      --radius: 18px;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
       min-height: 100dvh;
       max-width: 480px;
       margin: 0 auto;
+      background: #1a0d0d;
     }
 
     /* ── Setup ── */
@@ -60,279 +44,171 @@
       min-height: 100dvh;
       flex-direction: column;
       gap: 1.75rem;
+      background: #0f172a;
+      color: #e2e8f0;
     }
     #setup.active { display: flex; }
-
     .setup-logo { font-size: 3rem; }
-    .setup-title { font-size: 2rem; font-weight: 800; color: var(--blue); letter-spacing: -0.5px; }
-    .setup-sub { color: var(--text-muted); line-height: 1.55; font-size: 0.95rem; }
-
+    .setup-title { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; }
+    .setup-sub { color: #64748b; line-height: 1.55; font-size: 0.95rem; }
     label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
+      display: block; font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #475569; margin-bottom: 0.5rem;
     }
     input {
-      width: 100%;
-      padding: 0.875rem 1rem;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-size: 1rem;
-      color: var(--text);
-      background: var(--card);
-      outline: none;
-      transition: border-color 0.15s;
+      width: 100%; padding: 0.875rem 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; font-size: 1rem;
+      color: #e2e8f0; background: rgba(255,255,255,0.06);
+      outline: none; transition: border-color 0.15s;
       -webkit-appearance: none;
     }
-    input:focus { border-color: var(--blue); }
-
-    .help { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; }
-    .help a { color: var(--blue); text-decoration: none; }
-
+    input:focus { border-color: rgba(255,255,255,0.3); }
+    .help { font-size: 0.78rem; color: #475569; margin-top: 0.4rem; }
+    .help a { color: #93c5fd; text-decoration: none; }
     .btn {
-      width: 100%;
-      padding: 1rem;
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity 0.15s;
+      width: 100%; padding: 1rem;
+      background: rgba(255,255,255,0.12);
+      color: #fff; border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: opacity 0.15s;
       -webkit-tap-highlight-color: transparent;
     }
-    .btn:active { opacity: 0.8; }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1.5px solid var(--border);
-    }
+    .btn:active { opacity: 0.7; }
+    .btn-ghost { background: transparent; color: #64748b; border: 1px solid rgba(255,255,255,0.08); }
 
     /* ── Loading ── */
     #loading {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      min-height: 100dvh;
-      flex-direction: column;
-      gap: 1rem;
-      color: var(--text-muted);
+      display: none; justify-content: center; align-items: center;
+      min-height: 100dvh; flex-direction: column; gap: 1rem;
+      background: #1a0d0d; color: rgba(255,255,255,0.4);
     }
     #loading.active { display: flex; }
-
     .spinner {
       width: 44px; height: 44px;
-      border: 3px solid var(--border);
-      border-top-color: var(--blue);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: rgba(255,255,255,0.5);
       border-radius: 50%;
       animation: spin 0.75s linear infinite;
     }
 
     /* ── Error ── */
     #error {
-      display: none;
-      padding: 3rem 1.5rem;
-      min-height: 100dvh;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1rem;
+      display: none; padding: 3rem 1.5rem;
+      min-height: 100dvh; flex-direction: column;
+      justify-content: center; gap: 1rem;
+      background: #1a0d0d; color: #e2e8f0;
     }
     #error.active { display: flex; }
     .error-emoji { font-size: 3rem; }
     .error-title { font-size: 1.25rem; font-weight: 700; }
-    .error-msg { color: var(--text-muted); line-height: 1.55; }
+    .error-msg { color: rgba(255,255,255,0.4); line-height: 1.55; }
 
-    /* ── Main App ── */
+    /* ── App ── */
     #app { display: none; }
     #app.active { display: block; }
 
-    /* Header */
-    .header {
-      padding: 3.5rem 1.25rem 1.25rem;
-      transition: background 0.4s;
+    .app-bg {
+      min-height: 100dvh;
+      padding: 3rem 1.25rem 3rem;
+      display: flex; flex-direction: column; gap: 0.875rem;
+      transition: background 0.6s ease;
     }
-    .header.ok      { background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dark) 100%); }
-    .header.danger  { background: linear-gradient(160deg, var(--red) 0%, var(--red-dark) 100%); }
+    .app-bg.ok {
+      background: linear-gradient(175deg, #0c2461 0%, #1a4a9b 22%, #0d2547 65%, #060f22 100%);
+    }
+    .app-bg.danger {
+      background: linear-gradient(175deg, #6b1414 0%, #9b2020 22%, #3a1a1a 65%, #1a0d0d 100%);
+    }
 
+    /* Top row */
     .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      color: #fff;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 0.5rem;
     }
-    .app-name { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
-    .city-name { font-size: 0.85rem; opacity: 0.75; margin-top: 0.2rem; }
-
+    .city-name { font-size: 0.7rem; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+    .app-name  { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; }
     .icon-btn {
-      background: rgba(255,255,255,0.18);
-      border: none;
-      color: #fff;
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      font-size: 1.1rem;
-      cursor: pointer;
+      background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.7);
+      width: 38px; height: 38px; border-radius: 50%; font-size: 1rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
-      -webkit-tap-highlight-color: transparent;
-      flex-shrink: 0;
+      transition: background 0.15s; -webkit-tap-highlight-color: transparent; flex-shrink: 0;
     }
-    .icon-btn:active { background: rgba(255,255,255,0.3); }
+    .icon-btn:active { background: rgba(255,255,255,0.2); }
     .icon-btn.spinning { animation: spin 0.75s linear infinite; }
 
-    /* Weather card inside header */
-    .weather-strip {
-      margin-top: 1.25rem;
-      background: rgba(255,255,255,0.15);
+    /* Big temp */
+    .w-hero { display: flex; align-items: flex-end; gap: 0.75rem; margin: 0.5rem 0 0.25rem; }
+    .w-emoji { font-size: 3rem; line-height: 1; }
+    .w-temp  { font-size: 5rem; font-weight: 200; color: #fff; line-height: 1; letter-spacing: -0.04em; }
+    .w-temp sup { font-size: 1.5rem; font-weight: 300; vertical-align: super; }
+    .w-desc  { font-size: 0.95rem; color: rgba(255,255,255,0.55); font-weight: 400; text-transform: capitalize; }
+    .w-feel-row { font-size: 0.8rem; color: rgba(255,255,255,0.35); margin-top: 0.15rem; }
+
+    /* Glass card base */
+    .glass {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
-    .w-emoji { font-size: 2.75rem; line-height: 1; flex-shrink: 0; }
-    .w-main { flex: 1; }
-    .w-temp { font-size: 2.5rem; font-weight: 700; line-height: 1; }
-    .w-temp sup { font-size: 1.1rem; font-weight: 400; }
-    .w-desc { font-size: 0.85rem; opacity: 0.82; text-transform: capitalize; margin-top: 0.2rem; }
 
+    /* Timeline */
+    .timeline-scroll {
+      display: flex; justify-content: space-evenly;
+      padding: 0.875rem 0.5rem; overflow: hidden;
+    }
+    .timeline-item {
+      flex: 1; min-width: 0; display: flex; flex-direction: column;
+      align-items: center; gap: 0.3rem;
+    }
+    .timeline-time { font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.45); letter-spacing: 0.04em; }
+    .timeline-icon { font-size: 1.3rem; line-height: 1; }
+    .timeline-temp { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.85); }
+
+    /* Stats grid */
     .w-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      margin-top: 0.875rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
     }
-    .w-stat {
-      background: rgba(255,255,255,0.12);
-      border-radius: 10px;
-      padding: 0.5rem 0.75rem;
-      color: #fff;
-    }
-    .w-stat-label { font-size: 0.65rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.07em; }
-    .w-stat-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.15rem; }
-
-    /* Content */
-    .content {
-      padding: 1.25rem 1.25rem 2.5rem;
-      display: flex; flex-direction: column; gap: 1.25rem;
-    }
+    .w-stat { padding: 0.625rem 0.875rem; }
+    .w-stat-label { font-size: 0.55rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+    .w-stat-value { font-size: 1rem; font-weight: 600; color: #fff; margin-top: 0.2rem; }
 
     /* Alert banner */
     .alert-banner {
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
+      padding: 1rem 1.125rem;
       display: flex; align-items: center; gap: 0.875rem;
     }
-    .alert-banner.ok     { background: var(--ok-bg);     color: var(--ok);     border: 1.5px solid var(--ok-border); }
-    .alert-banner.danger { background: var(--danger-bg); color: var(--danger); border: 1.5px solid var(--danger-border); }
-    .alert-icon { font-size: 1.75rem; flex-shrink: 0; }
-    .alert-text { line-height: 1.3; }
-    .alert-title { font-weight: 700; font-size: 1rem; }
-    .alert-sub { font-size: 0.8rem; opacity: 0.75; margin-top: 0.2rem; font-weight: 400; }
+    .alert-icon  { font-size: 1.6rem; flex-shrink: 0; }
+    .alert-title { font-size: 0.95rem; font-weight: 700; color: #fff; line-height: 1.3; }
+    .alert-sub   { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 0.25rem; }
 
     /* Section title */
     .section-title {
-      font-size: 0.7rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.09em;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
+      font-size: 0.55rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.25); margin-bottom: 0.6rem;
     }
 
     /* Windows grid */
-    .windows-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-    .window-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 1rem;
-      border: 1.5px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      transition: border-color 0.3s, background 0.3s;
-    }
+    .windows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .window-card { padding: 0.875rem; transition: background 0.3s, border-color 0.3s; }
     .window-card.danger {
-      background: var(--danger-bg);
-      border-color: var(--danger-border);
+      background: rgba(180,30,30,0.3) !important;
+      border-color: rgba(255,100,100,0.2) !important;
     }
     .window-card.full-width { grid-column: 1 / -1; }
-    .wc-icon  { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .wc-name  { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.4rem; }
-    .wc-status { font-size: 0.875rem; font-weight: 700; }
-    .window-card.danger .wc-status { color: var(--danger); }
-    .window-card:not(.danger) .wc-status { color: var(--ok); }
-    .wc-reason { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .wc-icon   { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    .wc-name   { font-size: 0.65rem; font-weight: 500; color: rgba(255,255,255,0.35); margin-bottom: 0.3rem; letter-spacing: 0.02em; }
+    .wc-status { font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.4); }
+    .window-card.danger .wc-status { color: #ff8080; }
+    .wc-reason { font-size: 0.65rem; color: rgba(255,255,255,0.25); margin-top: 0.2rem; }
 
     .updated-time {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .forecast-alert {
-      background: var(--danger-bg);
-      border: 1.5px solid var(--danger-border);
-      border-radius: var(--radius);
-      padding: 0.875rem 1rem;
-      margin-bottom: 0.75rem;
-    }
-    .forecast-time {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--danger);
-      margin-bottom: 0.4rem;
-    }
-    .forecast-windows {
-      font-size: 0.8rem;
-      color: var(--text);
-      line-height: 1.4;
-    }
-
-    .timeline-section {
-      background: transparent;
-      padding: 1rem 0 0;
-      margin: 0;
-      overflow: hidden;
-    }
-    .timeline-scroll {
-      display: flex;
-      padding: 0 0.5rem;
-      justify-content: space-evenly;
-      overflow: hidden;
-    }
-
-    .timeline-item {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.4rem 0.25rem;
-      color: #fff;
-    }
-
-    .timeline-time {
-      font-size: 0.7rem;
-      font-weight: 600;
-      opacity: 0.9;
-    }
-    .timeline-icon {
-      font-size: 1.6rem;
-      min-height: 1.6rem;
-      display: flex;
-      align-items: center;
-    }
-    .timeline-temp {
-      font-size: 0.72rem;
-      font-weight: 600;
-      opacity: 0.95;
+      text-align: center; font-size: 0.7rem;
+      color: rgba(255,255,255,0.2); padding-top: 0.5rem;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -382,50 +258,50 @@
 
 <!-- ── App ── -->
 <div id="app">
-  <div class="header ok" id="header">
+  <div class="app-bg danger" id="header">
+
+    <!-- Top row -->
     <div class="header-row">
       <div>
-        <div class="app-name">Vaichover?</div>
         <div class="city-name" id="city-name"></div>
+        <div class="app-name">Vaichover?</div>
       </div>
       <button class="icon-btn" id="refresh-btn" onclick="carregar()" title="Atualizar">↻</button>
     </div>
 
-    <div class="weather-strip">
+    <!-- Big temperature -->
+    <div class="w-hero">
       <div class="w-emoji" id="w-emoji">—</div>
-      <div class="w-main">
-        <div class="w-temp" id="w-temp">—<sup>°C</sup></div>
-        <div class="w-desc" id="w-desc"></div>
-      </div>
+      <div class="w-temp" id="w-temp">—<sup>°</sup></div>
     </div>
+    <div class="w-desc" id="w-desc"></div>
+    <div class="w-feel-row">Sensação <span id="w-feel">—</span> · Umidade <span id="w-hum">—</span></div>
+
+    <!-- Timeline -->
+    <div class="glass" style="margin-top:0.5rem">
+      <div class="timeline-scroll" id="timeline"></div>
+    </div>
+
+    <!-- Stats -->
     <div class="w-stats">
-      <div class="w-stat"><div class="w-stat-label">Vento</div><div class="w-stat-value" id="w-wind">—</div></div>
-      <div class="w-stat"><div class="w-stat-label">Direção</div><div class="w-stat-value" id="w-dir">—</div></div>
-      <div class="w-stat"><div class="w-stat-label">Umidade</div><div class="w-stat-value" id="w-hum">—</div></div>
-      <div class="w-stat"><div class="w-stat-label">Sensação</div><div class="w-stat-value" id="w-feel">—</div></div>
+      <div class="w-stat glass"><div class="w-stat-label">Vento</div><div class="w-stat-value" id="w-wind">—</div></div>
+      <div class="w-stat glass"><div class="w-stat-label">Direção</div><div class="w-stat-value" id="w-dir">—</div></div>
     </div>
 
-    <div class="timeline-section">
-      <div class="timeline-scroll" id="timeline">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-  </div>
-
-  <div class="content">
-    <div class="alert-banner ok" id="alert-banner">
+    <!-- Alert -->
+    <div class="alert-banner glass" id="alert-banner">
       <div class="alert-icon" id="alert-icon">—</div>
-      <div class="alert-text">
+      <div>
         <div class="alert-title" id="alert-title"></div>
         <div class="alert-sub" id="alert-sub"></div>
       </div>
     </div>
 
+    <!-- Windows -->
     <div>
       <div class="section-title">Status das janelas</div>
       <div class="windows-grid" id="windows-grid"></div>
     </div>
-
 
     <div class="updated-time" id="updated-time"></div>
   </div>
@@ -673,7 +549,7 @@
 
     // Header color + theme-color meta
     const headerEl = document.getElementById("header");
-    headerEl.className = `header ${danger ? "danger" : "ok"}`;
+    headerEl.className = `app-bg ${danger ? "danger" : "ok"}`;
     const themeColor = danger ? "#c0392b" : "#2563eb";
     document.getElementById("meta-theme").content = themeColor;
     try {
@@ -710,7 +586,7 @@
     grid.innerHTML = windows.map((w, i) => {
       const last = i === windows.length - 1 && windows.length % 2 !== 0;
       return `
-        <div class="window-card ${w.close ? "danger" : ""}${last ? " full-width" : ""}">
+        <div class="window-card glass ${w.close ? "danger" : ""}${last ? " full-width" : ""}">
           <div class="wc-icon">${w.icon}</div>
           <div class="wc-name">${w.name}</div>
           <div class="wc-status">${w.close ? "❌ FECHAR" : "✅ Aberta"}</div>
