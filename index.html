@@ -8,6 +8,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Vaichover">
   <meta name="theme-color" id="meta-theme" content="#1e40af">
+  <script>
+    // Aplica theme-color salvo antes do render para evitar flash de cor errada
+    try {
+      const saved = localStorage.getItem("vw_theme");
+      if (saved) document.getElementById("meta-theme").content = saved;
+    } catch(_) {}
+  </script>
   <title>Vaichover?</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.svg">
@@ -661,7 +668,9 @@
     // Header color + theme-color meta
     const headerEl = document.getElementById("header");
     headerEl.className = `header ${danger ? "danger" : "ok"}`;
-    document.getElementById("meta-theme").content = danger ? "#991b1b" : "#1e40af";
+    const themeColor = danger ? "#991b1b" : "#1e40af";
+    document.getElementById("meta-theme").content = themeColor;
+    try { localStorage.setItem("vw_theme", themeColor); } catch(_) {}
 
     // Alert banner
     const banner = document.getElementById("alert-banner");
