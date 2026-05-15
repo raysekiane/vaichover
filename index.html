@@ -317,6 +317,9 @@
       color: #fff;
       scroll-snap-align: start;
     }
+    .timeline-item.past {
+      opacity: 0.35;
+    }
     .timeline-time {
       font-size: 0.7rem;
       font-weight: 600;
@@ -324,6 +327,9 @@
     }
     .timeline-icon {
       font-size: 1.6rem;
+      min-height: 1.6rem;
+      display: flex;
+      align-items: center;
     }
     .timeline-temp {
       font-size: 0.72rem;
@@ -491,8 +497,9 @@
   }
 
   function gerarTimeline(list) {
-    const hoje = new Date();
-    const diaHoje = hoje.toDateString();
+    const agora = new Date();
+    const diaHoje = agora.toDateString();
+    const horaAtual = agora.getHours();
     const horariosFixos = [0, 3, 6, 9, 12, 15, 18, 21, 24];
     const mapa = {};
 
@@ -505,13 +512,15 @@
 
     return horariosFixos.map(hora => {
       const h = hora === 24 ? 0 : hora;
+      const past = hora < horaAtual;
       const item = mapa[h];
-      if (!item) return { hora, icon: "—", temp: "—" };
+      if (!item) return { hora, icon: past ? "" : "…", temp: past ? "" : "…", past };
       const main = item.weather[0].main;
       return {
         hora,
         icon: WEATHER_EMOJI[main] || "🌡️",
-        temp: Math.round(item.main.temp),
+        temp: Math.round(item.main.temp) + "°",
+        past,
       };
     });
   }
@@ -692,10 +701,10 @@
     // Timeline
     const timeline = gerarTimeline(data.list);
     document.getElementById("timeline").innerHTML = timeline.map(t =>
-      `<div class="timeline-item">
-        <div class="timeline-time">${String(t.hora).padStart(2, '0')}h</div>
+      `<div class="timeline-item${t.past ? " past" : ""}">
+        <div class="timeline-time">${String(t.hora === 24 ? 0 : t.hora).padStart(2, '0')}h</div>
         <div class="timeline-icon">${t.icon}</div>
-        <div class="timeline-temp">${t.temp}°</div>
+        <div class="timeline-temp">${t.temp}</div>
       </div>`
     ).join("");
 
