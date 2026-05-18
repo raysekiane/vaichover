@@ -1,4 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" rx="230" fill="#1a1a2e"/>
-  <image href="icon.jpg" x="72" y="72" width="880" height="880" preserveAspectRatio="xMidYMid meet"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="house-clip">
+      <polygon points="256,40 480,200 480,460 32,460 32,200"/>
+    </clipPath>
+    <linearGradient id="roof-left" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b71c1c"/>
+      <stop offset="100%" stop-color="#c62828"/>
+    </linearGradient>
+    <linearGradient id="roof-right" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1565c0"/>
+      <stop offset="100%" stop-color="#1976d2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Corpo esquerdo (vermelho) -->
+  <polygon points="256,200 32,200 32,460 256,460" fill="#c0392b"/>
+  <!-- Corpo direito (azul) -->
+  <polygon points="256,200 480,200 480,460 256,460" fill="#1565c0"/>
+
+  <!-- Telhado esquerdo -->
+  <polygon points="256,40 32,200 256,200" fill="#a93226"/>
+  <!-- Telhado direito -->
+  <polygon points="256,40 480,200 256,200" fill="#0d47a1"/>
+
+  <!-- Contorno do telhado (ridge) -->
+  <polyline points="32,200 256,40 480,200" fill="none" stroke="#1a1a2e" stroke-width="10" stroke-linejoin="round"/>
+
+  <!-- Janelas esquerda -->
+  <rect x="60" y="240" width="70" height="60" rx="6" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+  <rect x="150" y="240" width="70" height="60" rx="6" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+  <!-- Janelas direita -->
+  <rect x="292" y="240" width="70" height="60" rx="6" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+  <rect x="382" y="240" width="70" height="60" rx="6" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+
+  <!-- Divisor central -->
+  <line x1="256" y1="200" x2="256" y2="460" stroke="#1a1a2e" stroke-width="5"/>
+
+  <!-- NUVEM ESQUERDA (chuva) -->
+  <g transform="translate(100, 165)">
+    <!-- nuvem -->
+    <ellipse cx="30" cy="30" rx="28" ry="20" fill="white" opacity="0.9"/>
+    <ellipse cx="55" cy="35" rx="22" ry="18" fill="white" opacity="0.9"/>
+    <ellipse cx="10" cy="38" rx="16" ry="13" fill="white" opacity="0.9"/>
+    <rect x="5" y="46" width="65" height="12" rx="6" fill="white" opacity="0.9"/>
+    <!-- gotas -->
+    <line x1="20" y1="62" x2="16" y2="78" stroke="#90caf9" stroke-width="3" stroke-linecap="round"/>
+    <line x1="35" y1="62" x2="31" y2="78" stroke="#90caf9" stroke-width="3" stroke-linecap="round"/>
+    <line x1="50" y1="62" x2="46" y2="78" stroke="#90caf9" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- SOL + NUVEM direita -->
+  <g transform="translate(290, 155)">
+    <!-- sol -->
+    <circle cx="95" cy="35" r="22" fill="#FFD600" opacity="0.95"/>
+    <!-- raios -->
+    <line x1="95" y1="6" x2="95" y2="0" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="95" y1="64" x2="95" y2="70" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="66" y1="35" x2="60" y2="35" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="124" y1="35" x2="130" y2="35" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="74" y1="14" x2="70" y2="10" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="116" y1="56" x2="120" y2="60" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="116" y1="14" x2="120" y2="10" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <line x1="74" y1="56" x2="70" y2="60" stroke="#FFD600" stroke-width="3" stroke-linecap="round"/>
+    <!-- nuvem à frente do sol -->
+    <ellipse cx="30" cy="50" rx="28" ry="20" fill="white" opacity="0.95"/>
+    <ellipse cx="55" cy="55" rx="22" ry="18" fill="white" opacity="0.95"/>
+    <ellipse cx="10" cy="58" rx="16" ry="13" fill="white" opacity="0.95"/>
+    <rect x="5" y="62" width="65" height="12" rx="6" fill="white" opacity="0.95"/>
+  </g>
+
+  <!-- Base / chão -->
+  <rect x="32" y="452" width="448" height="14" rx="4" fill="#1a1a2e" opacity="0.3"/>
 </svg>
